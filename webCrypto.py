@@ -10,7 +10,12 @@ def index():
     return render_template('index.html',
                            title='Home',
                            user=user)
-
+@app.route('/btc')
+def bitcoin():
+    user = {'nickname': 'Wolf of Bitcoin'}
+    return render_template('btc.html',
+                           title='Bitcoin',
+                           user=user)
 
 @app.route('/data')
 def names():
