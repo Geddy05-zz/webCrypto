@@ -16,6 +16,33 @@ def bitcoin():
     return render_template('btc.html',
                            title='Bitcoin',
                            user=user)
+@app.route('/eth')
+def eth():
+    user = {'nickname': 'Wolf of Bitcoin'}
+    return render_template('eth.html',
+                           title='Bitcoin',
+                           user=user)
+
+@app.route('/ltc')
+def ltc():
+    user = {'nickname': 'Wolf of Bitcoin'}
+    return render_template('ltc.html',
+                           title='Bitcoin',
+                           user=user)
+
+@app.route('/xmr')
+def xmr():
+    user = {'nickname': 'Wolf of Bitcoin'}
+    return render_template('xmr.html',
+                           title='Bitcoin',
+                           user=user)
+
+@app.route('/xrp')
+def xrp():
+    user = {'nickname': 'Wolf of Bitcoin'}
+    return render_template('xrp.html',
+                           title='Bitcoin',
+                           user=user)
 
 @app.route('/data')
 def names():
