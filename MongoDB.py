@@ -20,16 +20,24 @@ class MongoDB:
     # return the 5 currencies we shown on index page
     def get_current_value_big_five(self):
         coins = ["Bitcoin","Ethereum","Litecoin","Monero","Ripple"]
+        latestCurrency = {}
         if self.database:
             for coin in coins:
                 title = self.create_document_title(coin)
                 cursor = self.database.testDb.find_one({"title": title})
-                print(coin)
-                self.get_latest_tick(cursor["ticks"])
+                latestCurrency[coin] = self.get_latest_tick(cursor["ticks"])
+        return latestCurrency
 
-    def get_latest_tick(self,ticks):
+    @staticmethod
+    def get_latest_tick(ticks):
+        latest_tick = None
         for tick in ticks:
-            print(tick)
+            if latest_tick:
+                if latest_tick["last_updated"] < tick["last_updated"]:
+                    latest_tick = tick
+            else:
+                latest_tick = tick
+        return latest_tick
 
     # create the document title for mondoDB
     @staticmethod

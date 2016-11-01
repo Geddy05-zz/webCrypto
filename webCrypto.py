@@ -9,12 +9,12 @@ mongo = MongoDB()
 @app.route('/')
 def index():
 
-    mongo.get_current_value_big_five()
+    data = mongo.get_current_value_big_five()
 
     user = {'nickname': 'Wolf of Bitcoin'}
     return render_template('index.html',
                            title='Home',
-                           user=user)
+                           data=data)
 @app.route('/btc')
 def bitcoin():
     user = {'nickname': 'Wolf of Bitcoin'}
