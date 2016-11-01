@@ -9,7 +9,7 @@ class MongoDB:
     coins = ["Bitcoin", "Ethereum", "Litecoin", "Monero", "Ripple"]
 
     def __init__(self):
-        client = MongoClient('145.24.222.182')
+        client = MongoClient('145.24.222.182',connect=False)
         self.database = client.test
 
     def get_Document(self,title):

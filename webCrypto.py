@@ -8,12 +8,12 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     data = mongo.get_current_value_big_five()
-    change = mongo.get_change_of_big_five()
+    # change = mongo.get_change_of_big_five()
     user = {'nickname': 'Wolf of Bitcoin'}
     return render_template('index.html',
                            title='Home',
-                           data=data,
-                           change=change)
+                           data=data)
+                           # change=change)
 
 
 @app.route('/btc')
