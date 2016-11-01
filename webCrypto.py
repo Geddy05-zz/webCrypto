@@ -1,11 +1,16 @@
 from flask import Flask ,jsonify
 from flask import render_template
+from MongoDB import MongoDB
 
 app = Flask(__name__)
 
+mongo = MongoDB()
 
 @app.route('/')
 def index():
+
+    mongo.get_current_value_big_five()
+
     user = {'nickname': 'Wolf of Bitcoin'}
     return render_template('index.html',
                            title='Home',
