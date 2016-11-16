@@ -2,31 +2,35 @@ from flask import Flask ,jsonify
 from flask import render_template
 from MongoDB import MongoDB
 
-app = Flask(__name__)
-
 mongo = MongoDB()
+app = Flask(__name__)
 
 @app.route('/')
 def index():
-
     data = mongo.get_current_value_big_five()
-
+    # change = mongo.get_change_of_big_five()
     user = {'nickname': 'Wolf of Bitcoin'}
     return render_template('index.html',
                            title='Home',
                            data=data)
+                           # change=change)
+
+
 @app.route('/btc')
 def bitcoin():
     user = {'nickname': 'Wolf of Bitcoin'}
     return render_template('btc.html',
                            title='Bitcoin',
                            user=user)
+
+
 @app.route('/eth')
 def eth():
     user = {'nickname': 'Wolf of Bitcoin'}
     return render_template('eth.html',
                            title='Bitcoin',
                            user=user)
+
 
 @app.route('/ltc')
 def ltc():
@@ -35,6 +39,7 @@ def ltc():
                            title='Bitcoin',
                            user=user)
 
+
 @app.route('/xmr')
 def xmr():
     user = {'nickname': 'Wolf of Bitcoin'}
@@ -42,12 +47,14 @@ def xmr():
                            title='Bitcoin',
                            user=user)
 
+
 @app.route('/xrp')
 def xrp():
     user = {'nickname': 'Wolf of Bitcoin'}
     return render_template('xrp.html',
                            title='Bitcoin',
                            user=user)
+
 
 @app.route('/data')
 def names():
