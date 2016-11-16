@@ -36,19 +36,23 @@ class MongoDB:
             for coin in self.coins:
                 title = self.create_document_title(coin)
                 cursor = self.database.testDb.find_one({"title": title})
-                tickDayAgo = self.get_tick_Number_hours_ago()
+                tickDayAgo = self.get_tick_Number_hours_ago(cursor["ticks"])
                 latestTick = self.get_latest_tick(cursor["ticks"])
-                latestCurrency[coin] = latestTick / tickDayAgo * 100
-        latestCurrency
+                latestCurrency[coin] = round(float(100 - (latestTick / tickDayAgo * 100)),2)
+        return latestCurrency
 
     @staticmethod
     def get_tick_Number_hours_ago(ticks):
-        yesterday = datetime.date.today() - datetime.timedelta(1)
-        unix_time = yesterday.strftime("%s")
+        import datetime
+
+        now = datetime.datetime.now()
+        min = datetime.timedelta(1)
+        yesterday = now-min
+        unix_time = float(yesterday.strftime("%s"))
         different = None
         tickDayAgo = None
         for tick in ticks:
-            late = tick["last_updated"]
+            late = float(tick["last_updated"])
             if different:
                 if abs(unix_time - late) < different:
                     different = abs(unix_time-late)
@@ -56,7 +60,7 @@ class MongoDB:
             else:
                 different = tick["last_updated"]
                 tickDayAgo = tick
-        return tickDayAgo
+        return float(tickDayAgo["price_usd"])
 
 
     @staticmethod
@@ -68,7 +72,7 @@ class MongoDB:
                     latest_tick = tick
             else:
                 latest_tick = tick
-        return latest_tick
+        return float(latest_tick["price_usd"])
 
     # create the document title for mondoDB
     @staticmethod
