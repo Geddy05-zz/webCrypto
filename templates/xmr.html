@@ -24,7 +24,7 @@
         <script type="text/javascript" src="https://www.amcharts.com/lib/3/themes/dark.js"></script>
         
         <!-- amCharts javascript code -->
-        <script type="text/javascript">
+        <script type="text/javascript"/>
          <title>chart created with amCharts | amCharts</title>
         <meta name="description" content="chart created using amCharts live editor" />
         
@@ -40,12 +40,12 @@
             {
               "type": "serial",
               "categoryField": "date",
-              "dataDateFormat": "YYYY-MM-DD HH",
+              "dataDateFormat": "JJ:NN",
               "color": "#FFFFFF",
               "theme": "dark",
               "categoryAxis": {
-                "minPeriod": "hh",
-                "parseDates": true,
+                "minPeriod": "hh:mm",
+                //"parseDates": true,
                 "gridThickness": 0
 
               },
@@ -75,13 +75,13 @@
                   "stackType": "regular",
                   "tickLength": 0,
                   "title": "",
-                  "gridThickness": 0,
+                  "gridThickness": 0
                 }
               ],
               "allLabels": [],
               "balloon": {},
               "legend": {
-                "enabled": true
+                "enabled": false
               },
               "titles": [
                 {
@@ -92,31 +92,55 @@
               ],
               "dataProvider": [
                 {
-                  "date": "2014-03-01 08",
+                  "date": "08:00",
                   "Price": "404"
                 },
                 {
-                  "date": "2014-03-01 09",
+                  "date": "08:30",
+                  "Price": "777"
+                },
+                  {
+                  "date": "09:00",
+                  "Price": "777"
+                },
+                      {
+                  "date": "09:30",
                   "Price": "777"
                 },
                 {
-                  "date": "2014-03-01 10",
+                  "date": "10:00",
+                  "Price": "495"
+                },
+                      {
+                  "date": "10:30",
                   "Price": "495"
                 },
                 {
-                  "date": "2014-03-01 11",
+                  "date": "11:00",
+                  "Price": "500"
+                },
+                      {
+                  "date": "11:30",
                   "Price": "500"
                 },
                 {
-                  "date": "2014-03-01 12",
+                  "date": "12:00",
+                  "Price": "500"
+                },
+                      {
+                  "date": "12:30",
                   "Price": "500"
                 },
                 {
-                  "date": "2014-03-01 13",
+                  "date": "13:00",
                   "Price": "605"
                 },
+                      {
+                  "date": "13:30",
+                  "Price": "500"
+                },
                 {
-                  "date": "2014-03-01 14",
+                  "date": "14:00",
                   "Price": "611"
                 }
               ]
@@ -280,7 +304,7 @@
             <div class="row">
                 <center><div class="col-xs-12">
                   <div class="col-xs-4 textgrid bold">Price</div>
-                  <div class="col-xs-4 textgrid">611.95</div>
+                  <div class="col-xs-4 textgrid">{{ currency_value['price_usd'] }}</div>
                   <div class="col-xs-4 textgrid">+5%</div>
                 </div></center>
             </div>
@@ -288,7 +312,7 @@
             <div class="row">
                 <center><div class="col-xs-12">
                   <div class="col-xs-4 textgrid bold">Cap</div>
-                  <div class="col-xs-4 textgrid">1,2m</div>
+                  <div class="col-xs-4 textgrid"> {{ currency_value['market_cap_usd'] }}</div>
                   <div class="col-xs-4 textgrid">+20%</div>
                 </div></center>
             </div>
@@ -296,7 +320,7 @@
             <div class="row">
                 <center><div class="col-xs-12">
                   <div class="col-xs-4 textgrid bold">Volume</div>
-                  <div class="col-xs-4 textgrid">12000</div>
+                  <div class="col-xs-4 textgrid">{{ currency_value['24h_volume_usd'] }}</div>
                   <div class="col-xs-4 textgrid">-15%</div>
                 </div></center>
             </div>
