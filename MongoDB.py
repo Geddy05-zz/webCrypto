@@ -4,15 +4,17 @@ from datetime import datetime
 '''
 This class is used for al the mongoDB interaction
 '''
+
+
 class MongoDB:
     database = None
     coins = ["Bitcoin", "Ethereum", "Litecoin", "Monero", "Ripple"]
 
     def __init__(self):
-        client = MongoClient('145.24.222.182',connect=False)
+        client = MongoClient('145.24.222.182:8001', connect=False)
         self.database = client.test
 
-    def get_Document(self,title):
+    def get_document(self, title):
         # get a document by title
         cursor = None
         if self.database:
@@ -22,46 +24,42 @@ class MongoDB:
 
     # return the 5 currencies we shown on index page
     def get_current_value_big_five(self):
-        latestCurrency = {}
+        latest_currency = {}
         if self.database:
             for coin in self.coins:
                 title = self.create_document_title(coin)
                 cursor = self.database.testDb.find_one({"title": title})
-                latestCurrency[coin] = self.get_latest_tick(cursor["ticks"])
-        return latestCurrency
 
-    def get_change_of_big_five(self):
-        latestCurrency = {}
-        if self.database:
-            for coin in self.coins:
-                title = self.create_document_title(coin)
-                cursor = self.database.testDb.find_one({"title": title})
-                tickDayAgo = self.get_tick_Number_hours_ago(cursor["ticks"])
-                latestTick = self.get_latest_tick(cursor["ticks"])
-                latestCurrency[coin] = round(float(100 - (latestTick / tickDayAgo * 100)),2)
-        return latestCurrency
+                tick_day_ago = self.get_tick_number_hours_ago(cursor["ticks"])
+                latest_tick = self.get_latest_tick(cursor["ticks"])
+
+                currency_data = {"current_value": self.get_latest_tick(cursor["ticks"]),
+                                 "change": round(float(100 - (latest_tick / tick_day_ago * 100)), 2)
+                                 }
+                latest_currency[coin] = currency_data
+
+        return latest_currency
 
     @staticmethod
-    def get_tick_Number_hours_ago(ticks):
+    def get_tick_number_hours_ago(ticks):
         import datetime
 
-        now = datetime.datetime.now()
-        min = datetime.timedelta(1)
-        yesterday = now-min
+        date_now = datetime.datetime.now()
+        date_min = datetime.timedelta(1)
+        yesterday = date_now - date_min
         unix_time = float(yesterday.strftime("%s"))
         different = None
-        tickDayAgo = None
+        tick_day_ago = None
         for tick in ticks:
             late = float(tick["last_updated"])
             if different:
                 if abs(unix_time - late) < different:
-                    different = abs(unix_time-late)
-                    tickDayAgo = tick
+                    different = abs(unix_time - late)
+                    tick_day_ago = tick
             else:
                 different = tick["last_updated"]
-                tickDayAgo = tick
-        return float(tickDayAgo["price_usd"])
-
+                tick_day_ago = tick
+        return float(tick_day_ago["price_usd"])
 
     @staticmethod
     def get_latest_tick(ticks):
