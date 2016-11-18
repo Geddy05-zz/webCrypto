@@ -40,10 +40,13 @@ def ltc():
 
 @app.route('/xmr')
 def xmr():
+    data = mongo.get_current_values("Monero")
+    print (data)
     user = {'nickname': 'Wolf of Bitcoin'}
     return render_template('xmr.html',
                            title='Bitcoin',
-                           user=user)
+                           user=user, currency_value=data
+                           )
 
 
 @app.route('/xrp')
