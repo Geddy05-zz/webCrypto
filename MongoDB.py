@@ -47,6 +47,15 @@ class MongoDB:
 
         return latest_currency
 
+    def get_tick_values_of_last_12_hour(self,coin):
+        if self.database:
+            title = self.create_document_title(coin)
+            cursor = self.database.testDb.find_one({"title":title})["ticks"]
+            print(len(cursor))
+            if len(cursor) > 72:
+                return cursor[-72:]
+            return cursor
+
     @staticmethod
     def get_tick_number_hours_ago(ticks):
         import datetime
