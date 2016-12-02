@@ -32,121 +32,6 @@
         <script type="text/javascript" src="https://www.amcharts.com/lib/3/amcharts.js"></script>
         <script type="text/javascript" src="https://www.amcharts.com/lib/3/serial.js"></script>
         <script type="text/javascript" src="https://www.amcharts.com/lib/3/themes/dark.js"></script>
-        
-
-        <!-- amCharts javascript code -->
-        <script type="text/javascript">
-          AmCharts.makeChart("chart2div",
-            {
-              "type": "serial",
-              "categoryField": "date",
-              "dataDateFormat": "JJ:NN",
-              "color": "#FFFFFF",
-              "theme": "dark",
-              "categoryAxis": {
-                "minPeriod": "hh:mm",
-                //"parseDates": true,
-                "gridThickness": 0
-
-              },
-              "chartCursor": {
-                "enabled": true,
-                "categoryBalloonDateFormat": "JJ:NN"
-              },
-              "trendLines": [],
-              "graphs": [
-
-                {
-                  "fillAlphas": 0.0,
-                  "fillColors": "#FFFFFF",
-                  "gapPeriod": 0,
-                  "id": "AmGraph-4",
-                  "lineColor": "#C8F7C5",
-                  "lineAlpha": 1,
-                  "lineThickness": 5,
-                  "title": "Price",
-                  "valueField": "Price"
-                }
-              ],
-              "guides": [],
-              "valueAxes": [
-                {
-                  "id": "ValueAxis-1",
-                  "stackType": "regular",
-                  "tickLength": 0,
-                  "title": "",
-                  "gridThickness": 0
-                }
-              ],
-              "allLabels": [],
-              "balloon": {},
-              "legend": {
-                "enabled": false
-              },
-              "titles": [
-                {
-                  "id": "Title-1",
-                  "size": 15,
-                  "text": ""
-                }
-              ],
-              "dataProvider": [
-                {
-                  "date": "08:00",
-                  "Price": "404"
-                },
-                {
-                  "date": "08:30",
-                  "Price": "777"
-                },
-                  {
-                  "date": "09:00",
-                  "Price": "777"
-                },
-                      {
-                  "date": "09:30",
-                  "Price": "777"
-                },
-                {
-                  "date": "10:00",
-                  "Price": "495"
-                },
-                      {
-                  "date": "10:30",
-                  "Price": "495"
-                },
-                {
-                  "date": "11:00",
-                  "Price": "500"
-                },
-                      {
-                  "date": "11:30",
-                  "Price": "500"
-                },
-                {
-                  "date": "12:00",
-                  "Price": "500"
-                },
-                      {
-                  "date": "12:30",
-                  "Price": "500"
-                },
-                {
-                  "date": "13:00",
-                  "Price": "605"
-                },
-                      {
-                  "date": "13:30",
-                  "Price": "500"
-                },
-                {
-                  "date": "14:00",
-                  "Price": "611"
-                }
-              ]
-            }
-          );
-        </script> 
    
     <!-- Scorechart javascript sources -->
         <script type="text/javascript" src="https://www.amcharts.com/lib/3/amcharts.js"></script>
@@ -285,7 +170,7 @@
     <!--Datablock> <!-->
         
           <div class="row">
-              <center><div class="col-xs-12"><h3>Monero</h3><img class="icon" src="https://coinmarketcap.com/static/img/coins/16x16/monero.png" alt="Bitcoin Logo">
+              <center><div class="col-xs-12"><h3 id="title">{{ title }}</h3><img class="icon" src="https://coinmarketcap.com/static/img/coins/16x16/monero.png" alt="Bitcoin Logo">
               </div></center>
           </div>
 
@@ -353,7 +238,8 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-        <script src="/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="/static/js/lastTickValues.js"></script>
   </div>
   </body>
 </html>
