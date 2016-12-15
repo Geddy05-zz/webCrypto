@@ -1,15 +1,28 @@
+import json
+
 from flask import Flask
 from flask import render_template
 from flask import request
+import pyrebase
 from MongoDB import MongoDB
-import json
 
 mongo = MongoDB()
 app = Flask(__name__)
 
 
+config = {
+  "apiKey": "AIzaSyAU9tWB9Op8u9ABG91vznQOMZWQARxLBio",
+  "authDomain": "wolfofwallstreet-dec9b.firebaseapp.com",
+  "databaseURL": "https://wolfofwallstreet-dec9b.firebaseio.com",
+  "storageBucket": "93386450068"
+}
+
 @app.route('/')
 def index():
+    # auth = firebase.auth()
+    # email = "geddy@wow.nl"
+    # password = "geddy2015"
+    # user = auth.sign_in_with_email_and_password(email, password)
     data = mongo.get_current_value_big_five()
     return render_template('index.html',
                            title='Home',
@@ -71,6 +84,32 @@ def xrp():
                            user=user)
 
 
+# @app.route('/login', methods=['GET', 'POST'])
+# def login():
+#     # Here we use a class of some kind to represent and validate our
+#     # client-side form data. For example, WTForms is a library that will
+#     # handle this for us, and we use a custom LoginForm to validate.
+#     form = LoginForm()
+#     if form.validate_on_submit():
+#         # Login and validate the user.
+#         # user should be an instance of your `User` class
+#         login_user(user)
+#
+#         Flask.flash('Logged in successfully.')
+#
+#         next = Flask.request.args.get('next')
+#         # is_safe_url should check if the url is safe for redirects.
+#         # See http://flask.pocoo.org/snippets/62/ for an example.
+#         # if not is_safe_url(next):
+#             # return Flask.abort(400)
+#
+#         return Flask.redirect(next or Flask.url_for('index'))
+#     return Flask.render_template('login.html', form=form)
+
+
+
+
 if __name__ == '__main__':
+    # app.config["SECRET_KEY"] = "WOLFOFWALLSTREET"
     app.run()
 
