@@ -84,7 +84,7 @@ class MongoDB:
                     different = abs(unix_time - late)
                     tick_day_ago = tick
             else:
-                different = tick["last_updated"]
+                different = float(tick["last_updated"])
                 tick_day_ago = tick
         return float(tick_day_ago["price_usd"])
 

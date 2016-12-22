@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <form id= "login" action="" method=post>
+        <dl>
+            <dt>Username:
+            <dd>
+            <input type=text name=username>
+            <dt>Password:
+            <dd>
+            <input type=password name=password>
+        </dl>
+        <p>
+        <input type=submit value=Login>
+        <input type=hidden value="{{ next or '' }}" name=next>
+    </form>
+
+<script type="text/javascript">
+    var frm = $('#login');
+    frm.submit(function (ev) {
+        $.ajax({
+            type: frm.attr('method'),
+            url: frm.attr('action'),
+            data: frm.serialize(),
+            success: function (data) {
+                console.log(data)
+                if(data.token){
+                    sessionStorage['token'] = data.token;
+                    sessionStorage['uid'] = data.uid;
+                    window.location.href = '/';
+                }
+                else{
+                    alert("Wrong login")
+                }
+            }
+        });
+        ev.preventDefault();
+    });
+</script>
+</body>
+</html>
