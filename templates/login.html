@@ -5,8 +5,8 @@
     <title>Title</title>
 </head>
 <body>
-
-    <form action="" method=post>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <form id= "login" action="" method=post>
         <dl>
             <dt>Username:
             <dd>
@@ -20,5 +20,27 @@
         <input type=hidden value="{{ next or '' }}" name=next>
     </form>
 
+<script type="text/javascript">
+    var frm = $('#login');
+    frm.submit(function (ev) {
+        $.ajax({
+            type: frm.attr('method'),
+            url: frm.attr('action'),
+            data: frm.serialize(),
+            success: function (data) {
+                console.log(data)
+                if(data.token){
+                    sessionStorage['token'] = data.token;
+                    sessionStorage['uid'] = data.uid;
+                    window.location.href = '/';
+                }
+                else{
+                    alert("Wrong login")
+                }
+            }
+        });
+        ev.preventDefault();
+    });
+</script>
 </body>
 </html>

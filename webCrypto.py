@@ -1,6 +1,6 @@
 import json
 
-from flask import Flask
+from flask import Flask, jsonify
 from flask import render_template
 from flask import request
 import pyrebase
@@ -29,13 +29,36 @@ def index():
                            currency_value=data)
 
 
+@app.route('/login', methods=['GET', 'POST'])
+def loginForm():
+    if request.method == 'POST':
+        try:
+            auth = firebase.auth()
+            data = request.form
+            user = auth.sign_in_with_email_and_password(data['username'], data['password'])
+            print(user["localId"])
+            print(user["idToken"])
+            token = {"token":user['idToken'] , "uid": user["localId"]}
+
+        except:
+            token = {}
+
+        return jsonify(**token)
+
+    else:
+        return render_template('login.html',
+                               title='Home')
+
+
 @app.route('/btc')
 def bitcoin():
     data = mongo.get_current_values("Bitcoin")
     user = {'nickname': 'Wolf of Bitcoin'}
     return render_template('btc.html',
                            title='Bitcoin',
-                           user=user)
+                           user=user,
+                           currency_value=data
+                           )
 
 
 @app.route('/eth')
@@ -44,7 +67,9 @@ def eth():
     user = {'nickname': 'Wolf of Bitcoin'}
     return render_template('eth.html',
                            title='Ethereum',
-                           user=user)
+                           user=user,
+                           currency_value=data
+                           )
 
 
 @app.route('/ltc')
@@ -53,13 +78,14 @@ def ltc():
     user = {'nickname': 'Wolf of Bitcoin'}
     return render_template('ltc.html',
                            title='Litecoin',
-                           user=user)
+                           user=user,
+                           currency_value=data
+                           )
 
 
 @app.route('/xmr')
 def xmr():
     data = mongo.get_current_values("Monero")
-    print(mongo.get_tick_values_of_last_12_hour("Monero"))
     user = {'nickname': 'Wolf of Bitcoin'}
     return render_template('xmr.html',
                            title='Monero',
@@ -74,6 +100,51 @@ def get_last_hours():
     data = mongo.get_tick_values_of_last_12_hour(coin)
     return json.dumps(data)
 
+@app.route('/getUserInfo')
+def get_user_info():
+    data ={}
+    token = request.headers["token"]
+    uid = request.headers["uid"]
+    print(token)
+    if token:
+        data["budget"] = 500
+        # Get a reference to the database service
+        db = firebase.database()
+        #
+        # # data to save
+        save = {
+            "budget": 1000,
+            "currencies" :{}
+        }
+        # results = db.child("users/"+uid).child("data").set(save, token)
+        data = db.child("users/"+uid).child("data").get(token=token).val()
+        print(data)
+    return json.dumps(data)
+
+
+@app.route('/buyCurrency', methods=['POST'])
+def buy_currency():
+    db = firebase.database()
+    token = request.headers["token"]
+    uid = request.headers["uid"]
+    data = request.json
+    budget = db.child("users/" + uid).child("data").get(token=token).val()['budget']
+
+    owned_currency = db.child("users/" + uid).child("data").get(token=token).val()['currency']
+    print(owned_currency)
+    if (float(data['price']) < float(budget)):
+        newbudget = float(budget) - float(data['price'])
+        owned_currency[data["currency"]] += float(data["amount"])
+        save = {
+            "budget": newbudget,
+            "currency": owned_currency,
+        }
+        db.child("users/" + uid).child("data").update(save, token=token)
+
+        return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
+
+    return json.dumps({'success':False}), 200, {'ContentType':'application/json'}
+
 
 @app.route('/xrp')
 def xrp():
@@ -81,7 +152,9 @@ def xrp():
     user = {'nickname': 'Wolf of Bitcoin'}
     return render_template('xrp.html',
                            title='Bitcoin',
-                           user=user)
+                           user=user,
+                           currency_value=data
+                           )
 
 
 # @app.route('/login', methods=['GET', 'POST'])
@@ -111,5 +184,7 @@ def xrp():
 
 if __name__ == '__main__':
     # app.config["SECRET_KEY"] = "WOLFOFWALLSTREET"
+    firebase = pyrebase.initialize_app(config)
+    app.debug = True
     app.run()
 
