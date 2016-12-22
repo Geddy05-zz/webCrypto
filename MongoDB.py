@@ -47,14 +47,25 @@ class MongoDB:
 
         return latest_currency
 
-    def get_tick_values_of_last_12_hour(self,coin):
+    def get_tick_values_of_last_12_hour(self, coin):
+        data_with_time = []
         if self.database:
             title = self.create_document_title(coin)
+            data = None
             cursor = self.database.testDb.find_one({"title":title})["ticks"]
-            print(len(cursor))
             if len(cursor) > 72:
-                return cursor[-72:]
-            return cursor
+                data = cursor[-72:]
+            else:
+                data = cursor
+
+            for item in data:
+                unix_time = int(item["last_updated"])
+                date = datetime.fromtimestamp(
+                    unix_time
+                ).strftime('%d-%m %H:%M')
+                item["last_updated"] = date
+                data_with_time.append(item)
+        return data_with_time
 
     @staticmethod
     def get_tick_number_hours_ago(ticks):
@@ -73,7 +84,7 @@ class MongoDB:
                     different = abs(unix_time - late)
                     tick_day_ago = tick
             else:
-                different = tick["last_updated"]
+                different = float(tick["last_updated"])
                 tick_day_ago = tick
         return float(tick_day_ago["price_usd"])
 
