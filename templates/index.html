@@ -125,8 +125,16 @@
         console.log(data)
         if (undefined != budget) {
             var budget = "Budget: " + data["budget"];
+            budget += "<button type='button' onclick='logOut()'>Log out</button>";
             document.getElementById("header").innerHTML = budget;
         }
+    }
+
+    function logOut() {
+        sessionStorage['token'] = null;
+        sessionStorage["uid"] = null;
+        var emptyHeader = "<button type='button' onclick=\"location.href='/login';\">Log In</button>"
+        document.getElementById("header").innerHTML = emptyHeader;
     }
 </script>
 </html>

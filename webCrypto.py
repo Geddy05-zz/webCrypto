@@ -103,7 +103,7 @@ def get_last_hours():
 @app.route('/getUserInfo')
 def get_user_info():
     data ={}
-    if("token" in request.headers):
+    if("token" in request.headers and "uid" in request.headers):
         token = request.headers["token"]
         uid = request.headers["uid"]
         print(token)
