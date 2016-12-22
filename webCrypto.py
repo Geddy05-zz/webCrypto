@@ -103,22 +103,25 @@ def get_last_hours():
 @app.route('/getUserInfo')
 def get_user_info():
     data ={}
-    token = request.headers["token"]
-    uid = request.headers["uid"]
-    print(token)
-    if token:
-        data["budget"] = 500
-        # Get a reference to the database service
-        db = firebase.database()
-        #
-        # # data to save
-        save = {
-            "budget": 1000,
-            "currencies" :{}
-        }
-        # results = db.child("users/"+uid).child("data").set(save, token)
-        data = db.child("users/"+uid).child("data").get(token=token).val()
-        print(data)
+    if("token" in request.headers):
+        token = request.headers["token"]
+        uid = request.headers["uid"]
+        print(token)
+        if token:
+            data["budget"] = 500
+            # Get a reference to the database service
+            db = firebase.database()
+            #
+            # # data to save
+            save = {
+                "budget": 1000,
+                "currencies" :{}
+            }
+            # results = db.child("users/"+uid).child("data").set(save, token)
+            data = db.child("users/"+uid).child("data").get(token=token).val()
+            print(data)
+    else:
+        print("no header set")
     return json.dumps(data)
 
 
