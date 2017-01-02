@@ -401,6 +401,34 @@
             alert(amount * price);
           });
 
+          $("#sellbtn").click(function(){
+              var currency = $('#buyName').text();
+              var amount =  $('#amount').val();
+              var price = $('#price').text();
+
+              var obj = new Object();
+              obj.currency = currency;
+              obj.amount  = amount;
+              obj.price = price;
+
+              var jsonString = JSON.stringify(obj);
+              console.log(jsonString);
+              $.ajax({
+                  type: 'POST',
+                  url: "/sellCurrency",
+                  headers: {  "token": ""+sessionStorage['token'],
+                      "uid":sessionStorage["uid"]
+                  },
+                  contentType: "application/json",
+                  dataType: 'json',
+                  data: jsonString,
+                  success: function (data) {
+                      console.log(data)
+                  }
+              });
+            alert(amount * price);
+          });
+
       });
   </script>
 
