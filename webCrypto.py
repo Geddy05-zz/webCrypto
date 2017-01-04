@@ -8,6 +8,7 @@ from MongoDB import MongoDB
 
 mongo = MongoDB()
 app = Flask(__name__)
+application = app
 
 
 config = {
