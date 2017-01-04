@@ -74,7 +74,7 @@ class MongoDB:
         date_now = datetime.datetime.now()
         date_min = datetime.timedelta(1)
         yesterday = date_now - date_min
-        unix_time = float(yesterday.strftime("%s"))
+        unix_time = float(yesterday.strftime("%S"))
         different = None
         tick_day_ago = None
         for tick in ticks:
