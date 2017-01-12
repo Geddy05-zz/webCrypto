@@ -1,4 +1,8 @@
 import json
+import subprocess
+
+import os
+import sys
 
 from flask import Flask, jsonify
 from flask import render_template
@@ -8,6 +12,7 @@ from MongoDB import MongoDB
 
 mongo = MongoDB()
 app = Flask(__name__)
+application = app
 
 
 config = {
@@ -20,9 +25,31 @@ config = {
 @app.route('/')
 def index():
     data = mongo.get_current_value_big_five()
+    rscript()
     return render_template('index.html',
                            title='Home',
                            currency_value=data)
+
+def rscript():
+    # Define command and arguments
+    command = 'Rscript'
+    path2script = 'TwitterCorrelationFullCode.R'
+
+    path =  os.path.dirname(sys.modules['__main__'].__file__)
+    print(path)
+    # Variable number of args in a list
+    args = ['11', '3', '9', '42']
+
+    # Build subprocess command
+    "Rscript --vanilla TwitterCorrelationFullCode.R",
+    cmd = [command, path2script]
+
+    # check_output will run the command and store to result
+    x = subprocess.call("Rscript --vanilla "+path+"/TwitterCorrelationFullCode.R", shell=True)
+
+    print('The maximum of the numbers is:', x)
+
+
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -251,5 +278,5 @@ if __name__ == '__main__':
     # app.config["SECRET_KEY"] = "WOLFOFWALLSTREET"
     firebase = pyrebase.initialize_app(config)
     app.debug = True
-    app.run()
+    app.run(host='0.0.0.0' , port=8000)
 

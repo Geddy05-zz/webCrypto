@@ -10,42 +10,58 @@
     <title>Title</title>
 </head>
 <body>
-
+      <!--Top Bar> <!-->
+<div class="col-xs-12">
 <div class="row header">
     <div class="col-xs-3 header"></div>
     <div class="col-xs-6 header">
-        <center><a href="/"><h1>WoWS v1</h1></a></center>
+        <center>
+            <a href="/">
+            <svg class="Wolf" id="Wolf" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 225.83 228.32"><defs>
+            <style>.cls-1{fill:none;stroke-width:8px;}.cls-1,.cls-2{stroke:#fff;stroke-miterlimit:10;}.cls-2{fill:#fff;stroke-width:3px;}</style>
+            </defs><title>Wolf</title>
+            <polygon class="cls-1" points="220.91 125.33 130.91 224.32 94.92 224.32 4.92 125.33 40.91 62.33 49.91 8.32 85.92 44.33 130.91 44.33 175.91 8.32 184.91 62.33 220.91 125.33"/>
+            <polyline class="cls-1" points="220.91 125.33 139.91 89.33 130.91 188.32 121.92 197.32 103.92 197.32 94.92 188.32 85.92 89.33 4.92 125.33"/>
+            <polygon class="cls-2" points="49.91 125.33 49.91 107.33 85.92 125.33 49.91 125.33"/>
+            <polygon class="cls-2" points="175.91 125.33 175.91 107.33 139.91 125.33 175.91 125.33"/>
+            </svg></a>
+        </center>
     </div>
     <div class="col-xs-3 header">
     </div>
 </div>
-
+      <!--Title> <!-->
 <div class="row">
               <center>
                   <div class="col-xs-12"><h3 id="title">Profile</h3></div>
               </center>
 </div>
 
-<div class="row">
-    <div class="row homerow tablehead">
-          <div class="col-xs-1"></div>
-            <center><div class="col-xs-10 datablock">
-                <div class="row">
-                    <div class="col-xs-2">Name</div>
-                    <div class="col-xs-4">Price</div>
-                    <div class="col-xs-4">amount</div>
-                    <div class="col-xs-2">total</div>
+      <!--Table Head> <!-->
+
+      <!--Table Contents> <!-->
+    <div class="row homerow">
+
+          <div class="col-xs-1 col-md-3"></div>
+
+            <center><div class="col-xs-10 col-md-6 profileBlock">
+                <div class="row bold">
+                    <div class="col-xs-3 textgrid">Currency</div>
+                    <div class="col-xs-3 textgrid">Price</div>
+                    <div class="col-xs-3 textgrid">Amount</div>
+                    <div class="col-xs-3 textgrid">Total</div>
                 </div>
                 {% for result in data %}
                     <div class="row">
-                        <div class="col-xs-2" id={{ result[0] + "name" }}>{{ result[0] }}</div>
-                        <div class="col-xs-4" id={{ result[0] + "amount" }}> - </div>
-                        <div class="col-xs-4" id={{ result[0] + "price" }}> - </div>
-                        <div class="col-xs-2" id={{ result[0] + "total" }}> - </div>
+                        <div class="col-xs-3 textgrid boldWhite" id={{ result[0] + "name" }}>{{ result[0] }}</div>
+                        <div class="col-xs-3 textgrid" id={{ result[0] + "amount" }}> - </div>
+                        <div class="col-xs-3 textgrid" id={{ result[0] + "price" }}> - </div>
+                        <div class="col-xs-3 textgrid" id={{ result[0] + "total" }}> - </div>
                     </div>
                 {% endfor %}
             </div></center>
-          <div class="col-xs-1"></div>
+
+          <div class="col-xs-1 col-md-3"></div>
     </div>
 </div>
 </body>
