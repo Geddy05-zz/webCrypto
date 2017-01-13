@@ -47,17 +47,18 @@ def rscript():
 
     # a = r.source(path +"/TwitterScoreBitcoin.R")
     # x = subprocess.open("Rscript --vanilla "+path+"/TwitterScoreBitcoin.R")
-    
+
+    # TODO: this uncommand this block for local
     # x = subprocess.check_output("Rscript --vanilla "+path+"/bitcoin.R",stderr=subprocess.STDOUT,shell = True)
 
+    #TODO: command this for local
     try:
         output = subprocess.check_output("echo h7Dx34|sudo -S Rscript --vanilla /home/webCrypto/bitcoin.R",stderr=subprocess.STDOUT,shell = True)
         returncode = 0
     except subprocess.CalledProcessError as e:
         output = e.output
         returncode = e.returncode
-
-    print(output)
+    #TODO: comment till here
 
     with open('resultsTwitterScore.csv') as csvfile:
         reader = csv.DictReader(csvfile)
