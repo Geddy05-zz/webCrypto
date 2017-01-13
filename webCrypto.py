@@ -56,7 +56,7 @@ def rscript():
         output = e.output
         returncode = e.returncode
 
-    print(returncode)
+    print(output)
 
     with open('resultsTwitterScore.csv') as csvfile:
         reader = csv.DictReader(csvfile)
