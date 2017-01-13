@@ -47,11 +47,17 @@ def rscript():
 
     # a = r.source(path +"/TwitterScoreBitcoin.R")
     # x = subprocess.open("Rscript --vanilla "+path+"/TwitterScoreBitcoin.R")
-    if __debug__:
-        x = subprocess.check_output("Rscript --vanilla "+path+"/bitcoin.R",stderr=subprocess.STDOUT,shell = True)
-    else:
-      output = subprocess.check_output("echo h7Dx34|sudo -S Rscript --vanilla /home/webCrypto/bitcoin.R",stderr=subprocess.STDOUT,shell = True)
-      returncode = 0
+    
+    # x = subprocess.check_output("Rscript --vanilla "+path+"/bitcoin.R",stderr=subprocess.STDOUT,shell = True)
+
+    try:
+        output = subprocess.check_output("echo h7Dx34|sudo -S Rscript --vanilla /home/webCrypto/bitcoin.R",stderr=subprocess.STDOUT,shell = True)
+        returncode = 0
+    except subprocess.CalledProcessError as e:
+        output = e.output
+        returncode = e.returncode
+
+    print(output)
 
     with open('resultsTwitterScore.csv') as csvfile:
         reader = csv.DictReader(csvfile)
@@ -274,6 +280,6 @@ def sell_currency():
 if __name__ == '__main__':
     # app.config["SECRET_KEY"] = "WOLFOFWALLSTREET"
     firebase = pyrebase.initialize_app(config)
-    app.debug = False
+    app.debug = True
     app.run(host='0.0.0.0' , port=8000)
 
