@@ -4,7 +4,6 @@ import csv
 import os
 import sys
 
-from rpy2.robjects import r
 from flask import Flask, jsonify
 from flask import render_template
 from flask import request
