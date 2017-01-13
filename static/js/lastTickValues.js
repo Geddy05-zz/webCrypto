@@ -15,12 +15,23 @@ element.innerHTML = text;
             draw_live_ticks(data)
         }
     });
-
 }
 
+function twitter(){
+           $.ajax({
+        type: 'GET',
+        url: '/twitter',
+        dataType: 'json',
+        success: function (data) {
+            for (var x in data) {
+                 console.log(data[x]);
+            }
+        }
+    });
+}
 
 function draw_live_ticks(data) {
-    var a = []
+    var a = [];
 
     for (var i = 0, len = data.length; i < len; i++) {
         var tick = data[i];
@@ -87,4 +98,5 @@ function draw_live_ticks(data) {
             }
           );
 }
-do_request()
+do_request();
+twitter();

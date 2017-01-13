@@ -40,8 +40,6 @@ class MongoDB:
 
                 tick_day_ago = self.get_tick_number_hours_ago(cursor["ticks"])
                 latest_tick = float(self.get_latest_tick(cursor["ticks"])["price_usd"])
-                print(latest_tick)
-                print (tick_day_ago)
                 currency_data = {"current_value": latest_tick,
                                  "change": round(float(100 - (tick_day_ago / latest_tick  * 100)), 2)
                                  }
@@ -74,11 +72,8 @@ class MongoDB:
         import datetime
 
         date_now = datetime.datetime.now()
-        print(date_now)
         date_min = datetime.timedelta(1)
-        print(date_min)
         yesterday = date_now - date_min
-        print (yesterday)
         unix_time = time.mktime(yesterday.timetuple())
         # unix_time = float(yesterday.strftime("%S"))
         different = None
@@ -88,7 +83,6 @@ class MongoDB:
             if different:
                 if abs(late - unix_time) < different:
                     different = abs(late - unix_time )
-                    print(different)
                     tick_day_ago = tick
             else:
                 different = float(tick["last_updated"])

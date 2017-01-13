@@ -26,11 +26,11 @@ config = {
 @app.route('/')
 def index():
     data = mongo.get_current_value_big_five()
-    # rscript()
     return render_template('index.html',
                            title='Home',
                            currency_value=data)
 
+@app.route('/twitter', methods=['GET','POST'])
 def rscript():
     # Define command and arguments
     command = 'Rscript'
@@ -48,22 +48,21 @@ def rscript():
     # a = r.source(path +"/TwitterScore.R")
     x = subprocess.check_output("Rscript --vanilla "+path+"/TwitterScore.R", shell=True)
 
-    print (x)
-
     with open('resultsTwitterScore.csv') as csvfile:
         reader = csv.DictReader(csvfile)
+        scores = []
         for row in reader:
-            print(row)
+            score = {}
 
             date = datetime.fromtimestamp(
                 float(row["tStamp"])
             ).strftime('%d-%m %H:%M')
-            print(date)
-    # check_output will run the command and store to result
-    # x = subprocess.check_output("Rscript --vanilla "+path+"/TwitterScore.R", shell=True)
-    # output, error = subprocess.Popen("Rscript --vanilla "+path+"/TwitterScore.R", stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
 
-    # print(output)
+            score["date"] = date
+            score["score"] = row["score"]
+            scores.append(score)
+    print (scores)
+    return json.dumps(scores)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -265,31 +264,6 @@ def sell_currency():
         return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
 
     return json.dumps({'success':False}), 200, {'ContentType':'application/json'}
-
-# @app.route('/login', methods=['GET', 'POST'])
-# def login():
-#     # Here we use a class of some kind to represent and validate our
-#     # client-side form data. For example, WTForms is a library that will
-#     # handle this for us, and we use a custom LoginForm to validate.
-#     form = LoginForm()
-#     if form.validate_on_submit():
-#         # Login and validate the user.
-#         # user should be an instance of your `User` class
-#         login_user(user)
-#
-#         Flask.flash('Logged in successfully.')
-#
-#         next = Flask.request.args.get('next')
-#         # is_safe_url should check if the url is safe for redirects.
-#         # See http://flask.pocoo.org/snippets/62/ for an example.
-#         # if not is_safe_url(next):
-#             # return Flask.abort(400)
-#
-#         return Flask.redirect(next or Flask.url_for('index'))
-#     return Flask.render_template('login.html', form=form)
-
-
-
 
 if __name__ == '__main__':
     # app.config["SECRET_KEY"] = "WOLFOFWALLSTREET"

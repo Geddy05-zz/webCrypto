@@ -27,8 +27,8 @@ rm(dbCon)
 #========================================================================
 
 score_twitter <- function(data, hashtags){
-  data<-tweetFeed
-  hashtags<-c("btc", "bitcoin", "blockchain")
+  # data<-tweetFeed
+  # hashtags<-c("btc", "bitcoin", "blockchain")
 
   length <- nrow(data)
   data$text<-as.character(data$text)
@@ -48,13 +48,14 @@ score_twitter <- function(data, hashtags){
   for (i in (nrow(dataAgg)-14):nrow(dataAgg)){
     dataAgg[i,6] <- score(dataAgg[i,2], dataAgg[i,3], dataAgg[i,5])
   }
-
+  names(dataAgg)<-c("tStamp","fTotW","MA","Diff","SD","score")
   for (l in 1:3) {
-    dataAgg$V6<-c(NA,head(dataAgg$V6,-1))
+    dataAgg$score<-c(NA,head(dataAgg$score,-1))
   }
 
   dataAgg$tStamp<-as.numeric(dataAgg$tStamp)#back to unix time
-  dataAgg[(nrow(dataAgg)-12):nrow(dataAgg),c(1,6)]
+
+  dataAgg[(nrow(dataAgg)-11):nrow(dataAgg),c(1,6)]
 }
 
 score<-function(value, mean, sd){
