@@ -49,6 +49,15 @@ def rscript():
     # x = subprocess.open("Rscript --vanilla "+path+"/TwitterScoreBitcoin.R")
     x = subprocess.check_output("Rscript --vanilla "+path+"/bitcoin.R",stderr=subprocess.STDOUT,shell = True)
 
+    try:
+        output = subprocess.check_output("Rscript --vanilla "+path+"/bitcoin.R",stderr=subprocess.STDOUT,shell = True)
+        returncode = 0
+    except subprocess.CalledProcessError as e:
+        output = e.output
+        returncode = e.returncode
+
+    print(returncode)
+
     with open('resultsTwitterScore.csv') as csvfile:
         reader = csv.DictReader(csvfile)
         scores = []
