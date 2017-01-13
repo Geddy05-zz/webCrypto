@@ -36,7 +36,7 @@ def rscript():
     command = 'Rscript'
     path2script = 'TwitterCorrelationFullCode.R'
 
-    path =  os.path.dirname(sys.modules['__main__'].__file__)
+    path = os.path.dirname(os.path.realpath(__file__))
     print(path)
     # Variable number of args in a list
     args = ['11', '3', '9', '42']
