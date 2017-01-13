@@ -36,7 +36,7 @@ def rscript():
     command = 'Rscript'
     path2script = 'TwitterCorrelationFullCode.R'
 
-    path = os.path.dirname(os.path.realpath(__file__))
+    path =  os.path.dirname(sys.modules['__main__'].__file__)
     print(path)
     # Variable number of args in a list
     args = ['11', '3', '9', '42']
@@ -47,7 +47,7 @@ def rscript():
 
     # a = r.source(path +"/TwitterScoreBitcoin.R")
     # x = subprocess.open("Rscript --vanilla "+path+"/TwitterScoreBitcoin.R")
-    x = subprocess.check_output("Rscript --vanilla "+path+"/TwitterScoreBitcoin.R", universal_newlines=True)
+    x = subprocess.check_output("Rscript --vanilla "+path+"/bitcoin.R",shell = True)
 
     with open('resultsTwitterScore.csv') as csvfile:
         reader = csv.DictReader(csvfile)
