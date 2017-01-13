@@ -140,6 +140,7 @@ def xrp():
     user = {'nickname': 'Wolf of Bitcoin'}
     return render_template('xrp.html',
                            title='Ripple',
+                           url="https://coinmarketcap.com/static/img/coins/16x16/ripple.png",
                            user=user,
                            currency_value=data
                            )
