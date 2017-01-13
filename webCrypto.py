@@ -1,14 +1,16 @@
 import json
 import subprocess
-
+import csv
 import os
 import sys
 
+from rpy2.robjects import r
 from flask import Flask, jsonify
 from flask import render_template
 from flask import request
 import pyrebase
 from MongoDB import MongoDB
+from datetime import datetime
 
 mongo = MongoDB()
 app = Flask(__name__)
@@ -25,7 +27,7 @@ config = {
 @app.route('/')
 def index():
     data = mongo.get_current_value_big_five()
-    rscript()
+    # rscript()
     return render_template('index.html',
                            title='Home',
                            currency_value=data)
@@ -41,15 +43,28 @@ def rscript():
     args = ['11', '3', '9', '42']
 
     # Build subprocess command
-    "Rscript --vanilla TwitterCorrelationFullCode.R",
+    # "Rscript --vanilla TwitterCorrelationFullCode.R",
     cmd = [command, path2script]
 
+    # a = r.source(path +"/TwitterScore.R")
+    x = subprocess.check_output("Rscript --vanilla "+path+"/TwitterScore.R", shell=True)
+
+    print (x)
+
+    with open('resultsTwitterScore.csv') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            print(row)
+
+            date = datetime.fromtimestamp(
+                float(row["tStamp"])
+            ).strftime('%d-%m %H:%M')
+            print(date)
     # check_output will run the command and store to result
-    x = subprocess.call("Rscript --vanilla "+path+"/TwitterCorrelationFullCode.R", shell=True)
+    # x = subprocess.check_output("Rscript --vanilla "+path+"/TwitterScore.R", shell=True)
+    # output, error = subprocess.Popen("Rscript --vanilla "+path+"/TwitterScore.R", stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
 
-    print('The maximum of the numbers is:', x)
-
-
+    # print(output)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -79,6 +94,7 @@ def bitcoin():
     user = {'nickname': 'Wolf of Bitcoin'}
     return render_template('btc.html',
                            title='Bitcoin',
+                           url="https://coinmarketcap.com/static/img/coins/16x16/bitcoin.png",
                            user=user,
                            currency_value=data
                            )
@@ -90,6 +106,7 @@ def eth():
     user = {'nickname': 'Wolf of Bitcoin'}
     return render_template('eth.html',
                            title='Ethereum',
+                           url="https://coinmarketcap.com/static/img/coins/16x16/ethereum.png",
                            user=user,
                            currency_value=data
                            )
@@ -101,6 +118,7 @@ def ltc():
     user = {'nickname': 'Wolf of Bitcoin'}
     return render_template('ltc.html',
                            title='Litecoin',
+                           url="https://coinmarketcap.com/static/img/coins/16x16/litecoin.png",
                            user=user,
                            currency_value=data
                            )
@@ -112,6 +130,7 @@ def xmr():
     user = {'nickname': 'Wolf of Bitcoin'}
     return render_template('xmr.html',
                            title='Monero',
+                           url = "https://coinmarketcap.com/static/img/coins/16x16/monero.png",
                            user=user,
                            currency_value=data
                            )
@@ -122,7 +141,7 @@ def xrp():
     data = mongo.get_current_values("Ripple")
     user = {'nickname': 'Wolf of Bitcoin'}
     return render_template('xrp.html',
-                           title='Bitcoin',
+                           title='Ripple',
                            user=user,
                            currency_value=data
                            )
@@ -169,7 +188,6 @@ def getprofile():
                            title='Bitcoin',
                            data=data
                            )
-
 
 @app.route('/get_last_tick_data')
 def get_last_hours():
