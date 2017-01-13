@@ -48,7 +48,8 @@ def rscript():
     # a = r.source(path +"/TwitterScoreBitcoin.R")
     # x = subprocess.open("Rscript --vanilla "+path+"/TwitterScoreBitcoin.R")
     # x = subprocess.check_output("Rscript --vanilla "+path+"/bitcoin.R",stderr=subprocess.STDOUT,shell = True)
-
+    process = subprocess.Popen(['ls', '-l'], stdout=subprocess.PIPE)
+    print (process)
     try:
         output = subprocess.check_output("Rscript --vanilla "+path+"/bitcoin.R",stderr=subprocess.STDOUT,shell = True)
         returncode = 0
