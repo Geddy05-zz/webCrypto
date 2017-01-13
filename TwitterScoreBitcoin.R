@@ -2,7 +2,7 @@
 #new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 #if(length(new.packages)) install.packages(new.packages)
 
-packages  <- c("quantmod","TTR")
+packages  <- c("TTR")
 
 # Function to check whether package is installed
 is.installed <- function(pkgs){
