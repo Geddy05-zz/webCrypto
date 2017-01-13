@@ -1,6 +1,24 @@
-list.of.packages <- c("mongolite", "xts","quantmod","TTR")
-new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
-if(length(new.packages)) install.packages(new.packages)
+#list.of.packages <- c("mongolite", "xts","quantmod","TTR")
+#new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+#if(length(new.packages)) install.packages(new.packages)
+
+packages  <- c("mongolite", "xts","quantmod","TTR")
+
+# Function to check whether package is installed
+is.installed <- function(pkgs){
+  for(x in pkgs){
+  if(!is.element(x, installed.packages()[,1]))
+    {install.packages(x, repos="http://cran.fhcrc.org")
+  } else {print(paste(x, " library already installed"))}
+}
+}
+
+for(package in packages){
+  # check if package is installed
+  if (!is.installed(package)){
+    install.packages(package)
+  }
+}
 
 library(mongolite)
 library(xts)
