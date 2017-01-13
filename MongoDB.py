@@ -1,5 +1,6 @@
 from pymongo import MongoClient
 from datetime import datetime
+import time
 
 '''
 This class is used for al the mongoDB interaction
@@ -39,9 +40,8 @@ class MongoDB:
 
                 tick_day_ago = self.get_tick_number_hours_ago(cursor["ticks"])
                 latest_tick = float(self.get_latest_tick(cursor["ticks"])["price_usd"])
-
                 currency_data = {"current_value": latest_tick,
-                                 "change": round(float(100 - (latest_tick / tick_day_ago * 100)), 2)
+                                 "change": round(float(100 - (tick_day_ago / latest_tick  * 100)), 2)
                                  }
                 latest_currency[coin] = currency_data
 
@@ -74,14 +74,15 @@ class MongoDB:
         date_now = datetime.datetime.now()
         date_min = datetime.timedelta(1)
         yesterday = date_now - date_min
-        unix_time = float(yesterday.strftime("%S"))
+        unix_time = time.mktime(yesterday.timetuple())
+        # unix_time = float(yesterday.strftime("%S"))
         different = None
         tick_day_ago = None
         for tick in ticks:
             late = float(tick["last_updated"])
             if different:
-                if abs(unix_time - late) < different:
-                    different = abs(unix_time - late)
+                if abs(late - unix_time) < different:
+                    different = abs(late - unix_time )
                     tick_day_ago = tick
             else:
                 different = float(tick["last_updated"])

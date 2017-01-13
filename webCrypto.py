@@ -1,10 +1,15 @@
 import json
+import subprocess
+import csv
+import os
+import sys
 
 from flask import Flask, jsonify
 from flask import render_template
 from flask import request
 import pyrebase
 from MongoDB import MongoDB
+from datetime import datetime
 
 mongo = MongoDB()
 app = Flask(__name__)
@@ -24,6 +29,40 @@ def index():
     return render_template('index.html',
                            title='Home',
                            currency_value=data)
+
+@app.route('/twitter', methods=['GET','POST'])
+def rscript():
+    # Define command and arguments
+    command = 'Rscript'
+    path2script = 'TwitterCorrelationFullCode.R'
+
+    path =  os.path.dirname(sys.modules['__main__'].__file__)
+    print(path)
+    # Variable number of args in a list
+    args = ['11', '3', '9', '42']
+
+    # Build subprocess command
+    # "Rscript --vanilla TwitterCorrelationFullCode.R",
+    cmd = [command, path2script]
+
+    # a = r.source(path +"/TwitterScore.R")
+    x = subprocess.check_output("Rscript --vanilla "+path+"/TwitterScore.R", shell=True)
+
+    with open('resultsTwitterScore.csv') as csvfile:
+        reader = csv.DictReader(csvfile)
+        scores = []
+        for row in reader:
+            score = {}
+
+            date = datetime.fromtimestamp(
+                float(row["tStamp"])
+            ).strftime('%d-%m %H:%M')
+
+            score["date"] = date
+            score["score"] = row["score"]
+            scores.append(score)
+    print (scores)
+    return json.dumps(scores)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -53,6 +92,7 @@ def bitcoin():
     user = {'nickname': 'Wolf of Bitcoin'}
     return render_template('btc.html',
                            title='Bitcoin',
+                           url="https://coinmarketcap.com/static/img/coins/16x16/bitcoin.png",
                            user=user,
                            currency_value=data
                            )
@@ -64,6 +104,7 @@ def eth():
     user = {'nickname': 'Wolf of Bitcoin'}
     return render_template('eth.html',
                            title='Ethereum',
+                           url="https://coinmarketcap.com/static/img/coins/16x16/ethereum.png",
                            user=user,
                            currency_value=data
                            )
@@ -75,6 +116,7 @@ def ltc():
     user = {'nickname': 'Wolf of Bitcoin'}
     return render_template('ltc.html',
                            title='Litecoin',
+                           url="https://coinmarketcap.com/static/img/coins/16x16/litecoin.png",
                            user=user,
                            currency_value=data
                            )
@@ -86,6 +128,7 @@ def xmr():
     user = {'nickname': 'Wolf of Bitcoin'}
     return render_template('xmr.html',
                            title='Monero',
+                           url = "https://coinmarketcap.com/static/img/coins/16x16/monero.png",
                            user=user,
                            currency_value=data
                            )
@@ -96,7 +139,7 @@ def xrp():
     data = mongo.get_current_values("Ripple")
     user = {'nickname': 'Wolf of Bitcoin'}
     return render_template('xrp.html',
-                           title='Bitcoin',
+                           title='Ripple',
                            user=user,
                            currency_value=data
                            )
@@ -143,7 +186,6 @@ def getprofile():
                            title='Bitcoin',
                            data=data
                            )
-
 
 @app.route('/get_last_tick_data')
 def get_last_hours():
@@ -222,31 +264,6 @@ def sell_currency():
         return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
 
     return json.dumps({'success':False}), 200, {'ContentType':'application/json'}
-
-# @app.route('/login', methods=['GET', 'POST'])
-# def login():
-#     # Here we use a class of some kind to represent and validate our
-#     # client-side form data. For example, WTForms is a library that will
-#     # handle this for us, and we use a custom LoginForm to validate.
-#     form = LoginForm()
-#     if form.validate_on_submit():
-#         # Login and validate the user.
-#         # user should be an instance of your `User` class
-#         login_user(user)
-#
-#         Flask.flash('Logged in successfully.')
-#
-#         next = Flask.request.args.get('next')
-#         # is_safe_url should check if the url is safe for redirects.
-#         # See http://flask.pocoo.org/snippets/62/ for an example.
-#         # if not is_safe_url(next):
-#             # return Flask.abort(400)
-#
-#         return Flask.redirect(next or Flask.url_for('index'))
-#     return Flask.render_template('login.html', form=form)
-
-
-
 
 if __name__ == '__main__':
     # app.config["SECRET_KEY"] = "WOLFOFWALLSTREET"
