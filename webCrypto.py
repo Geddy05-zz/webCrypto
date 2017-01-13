@@ -50,7 +50,7 @@ def rscript():
     # x = subprocess.check_output("Rscript --vanilla "+path+"/bitcoin.R",stderr=subprocess.STDOUT,shell = True)
     process = subprocess.Popen(['ls', '-l'], stdout=subprocess.PIPE)
     stdout, stderr = process.communicate()
-    print (stdout)
+    print (stdout.splitlines())
     print(stderr)
     try:
         output = subprocess.check_output("Rscript --vanilla "+path+"/bitcoin.R",stderr=subprocess.STDOUT,shell = True)
