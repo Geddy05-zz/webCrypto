@@ -45,8 +45,8 @@ def rscript():
     # "Rscript --vanilla TwitterCorrelationFullCode.R",
     cmd = [command, path2script]
 
-    # a = r.source(path +"/TwitterScore.R")
-    x = subprocess.check_output("Rscript --vanilla "+path+"/TwitterScore.R", shell=True)
+    # a = r.source(path +"/TwitterScoreBitcoin.R")
+    x = subprocess.check_output("Rscript --vanilla "+path+"/TwitterScoreBitcoin.R", shell=True)
 
     with open('resultsTwitterScore.csv') as csvfile:
         reader = csv.DictReader(csvfile)

@@ -10,7 +10,7 @@ library(TTR)
 dumpVar<-Sys.setlocale("LC_ALL","English")
 
 maxDate <- Sys.time()
-minDate <- maxDate - 3600*14
+minDate <- maxDate - 3600*20
 minDate <- as.integer(as.POSIXct(strptime(minDate,"%Y-%m-%d %H:%M:%S"))) * 1000
 maxDate <- as.integer(as.POSIXct(strptime(maxDate,"%Y-%m-%d %H:%M:%S"))) * 1000
 
@@ -45,7 +45,7 @@ score_twitter <- function(data, hashtags){
     dataAgg[(i+6),5]<-sd(dataAgg[i:(6+i),4],na.rm=T)
   }
 
-  for (i in (nrow(dataAgg)-14):nrow(dataAgg)){
+  for (i in (nrow(dataAgg)-28):nrow(dataAgg)){
     dataAgg[i,6] <- score(dataAgg[i,2], dataAgg[i,3], dataAgg[i,5])
   }
   names(dataAgg)<-c("tStamp","fTotW","MA","Diff","SD","score")
@@ -54,8 +54,8 @@ score_twitter <- function(data, hashtags){
   }
 
   dataAgg$tStamp<-as.numeric(dataAgg$tStamp)#back to unix time
-
-  dataAgg[(nrow(dataAgg)-11):nrow(dataAgg),c(1,6)]
+  dataAgg$score<-round(dataAgg$score,2)
+  dataAgg[(nrow(dataAgg)-23):nrow(dataAgg),c(1,6)]
 }
 
 score<-function(value, mean, sd){
