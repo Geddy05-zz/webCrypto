@@ -10,12 +10,12 @@ library(TTR)
 dumpVar<-Sys.setlocale("LC_ALL","English")
 
 maxDate <- Sys.time()
-minDate <- maxDate - 3600*14
+minDate <- maxDate - 3600*20
 minDate <- as.integer(as.POSIXct(strptime(minDate,"%Y-%m-%d %H:%M:%S"))) * 1000
 maxDate <- as.integer(as.POSIXct(strptime(maxDate,"%Y-%m-%d %H:%M:%S"))) * 1000
 
 #connect to mongodb
-dbCon <- mongo(collection = "tweetFeed", db = "TwitterData", url = "mongodb://145.24.222.182:8001")
+dbCon <- mongo(collection = "tweetFeed", db = "TwitterData", url = "mongodb://145.24.222.182:8001") 
 
 #dataframe to continue with data processing
 tweetFeed <- dbCon$find(paste0('{"created_at": {"$gte": { "$date" : { "$numberLong" : "', minDate, '" } }, "$lte": { "$date" : { "$numberLong" : "', maxDate, '" } }}}'),paste0('{"text": 1, "created_at": 1, "followers_count": 1}'))
@@ -29,14 +29,14 @@ rm(dbCon)
 score_twitter <- function(data, hashtags){
   # data<-tweetFeed
   # hashtags<-c("btc", "bitcoin", "blockchain")
-
+  
   length <- nrow(data)
   data$text<-as.character(data$text)
   data<-data[grep(paste(hashtags,collapse="|"),data[,4],value = F,ignore.case = T),]
   data<-data[,c(2,3)]
-  dataAgg<-aggregate(. ~ cut(data$created_at, paste(as.character(30),"min")),
+  dataAgg<-aggregate(. ~ cut(data$created_at, paste(as.character(30),"min")), 
                      data[setdiff(names(data), "created_at")], sum)
-
+  
   names(dataAgg)<-c("tStamp","fTotW")
   dataAgg$tStamp<-as.POSIXct(strptime(dataAgg$tStamp,"%Y-%m-%d %H:%M:%S"))
   dataAgg$MA<-ZLEMA(dataAgg[,2], 6)#quantmod package
@@ -44,18 +44,18 @@ score_twitter <- function(data, hashtags){
   for (i in 6:(nrow(dataAgg)-6)) {
     dataAgg[(i+6),5]<-sd(dataAgg[i:(6+i),4],na.rm=T)
   }
-
-  for (i in (nrow(dataAgg)-14):nrow(dataAgg)){
+  
+  for (i in (nrow(dataAgg)-28):nrow(dataAgg)){
     dataAgg[i,6] <- score(dataAgg[i,2], dataAgg[i,3], dataAgg[i,5])
   }
   names(dataAgg)<-c("tStamp","fTotW","MA","Diff","SD","score")
   for (l in 1:3) {
     dataAgg$score<-c(NA,head(dataAgg$score,-1))
   }
-
+  
   dataAgg$tStamp<-as.numeric(dataAgg$tStamp)#back to unix time
-
-  dataAgg[(nrow(dataAgg)-11):nrow(dataAgg),c(1,6)]
+  dataAgg$score<-round(dataAgg$score,2)
+  dataAgg[(nrow(dataAgg)-23):nrow(dataAgg),c(1,6)]
 }
 
 score<-function(value, mean, sd){
@@ -63,7 +63,7 @@ score<-function(value, mean, sd){
     1
   }
   else if(value>= mean+ 3*sd){
-    10
+    10 
   }
   else {
     ((value-mean)/sd)*(9/6) + 5.5
