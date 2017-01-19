@@ -12,22 +12,38 @@ element.innerHTML = text;
         data: { "title": text},
         dataType: 'json',
         success: function (data) {
+            updateScore(data);
             draw_live_ticks(data)
         }
     });
 }
 
 function twitter(){
+    element = document.getElementById("title")
+    var text = element.innerText || element.textContent;
            $.ajax({
         type: 'GET',
         url: '/twitter',
+               data: { "coin": text},
         dataType: 'json',
         success: function (data) {
             // for (var x in data) {
-                 draw_live_twitter(data);
+            draw_live_twitter(data);
             // }
         }
     });
+}
+
+function updateScore(data) {
+    var last = parseInt(data[data.length - 1].price_usd);
+    var first = parseInt(data[0].price_usd);
+
+    var change = (first /last ) * 100;
+    if (change > 100){
+        change = 100 - change;
+    }
+    element = document.getElementById("score");
+    element.innerHTML = change.toFixed(2)
 }
 
 function draw_live_twitter(data) {
