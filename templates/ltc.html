@@ -18,22 +18,12 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <!-- Pricechart javascript sources -->
-        <script type="text/javascript" src="https://www.amcharts.com/lib/3/amcharts.js"></script>
-        <script type="text/javascript" src="https://www.amcharts.com/lib/3/serial.js"></script>
-        <script type="text/javascript" src="https://www.amcharts.com/lib/3/themes/dark.js"></script>
 
-        <!-- amCharts javascript code -->
-        <script type="text/javascript">
-            <title>chart created with amCharts | amCharts</title>
-            <meta name="description" content="chart created using amCharts live editor" />
-        </script>
-
+        <!--Price fluctuation> <!-->
         <!-- amCharts javascript sources -->
         <script type="text/javascript" src="https://www.amcharts.com/lib/3/amcharts.js"></script>
         <script type="text/javascript" src="https://www.amcharts.com/lib/3/serial.js"></script>
         <script type="text/javascript" src="https://www.amcharts.com/lib/3/themes/dark.js"></script>
-
 
         <!-- amCharts javascript code -->
         <script type="text/javascript">
@@ -125,10 +115,12 @@
           );
         </script>
 
-    <!-- Scorechart javascript sources -->
+        <!--Activity Sentiment Score> <!-->
+        <!-- Scorechart javascript sources -->
         <script type="text/javascript" src="https://www.amcharts.com/lib/3/amcharts.js"></script>
         <script type="text/javascript" src="https://www.amcharts.com/lib/3/serial.js"></script>
         <script type="text/javascript" src="https://www.amcharts.com/lib/3/themes/dark.js"></script>
+
         <!-- amCharts javascript code -->
         <script type="text/javascript">
           AmCharts.makeChart("chart1div",
@@ -202,14 +194,14 @@
               "dataProvider": [
                 {
                   "date": "2014-03-01 08",
-                  "News": 0,
-                  "Twitter": 0,
+                  "News": -10,
+                  "Twitter": 2,
                   "Reddit": 0
                 },
                 {
                   "date": "2014-03-01 09",
-                  "News": 0,
-                  "Twitter": 0,
+                  "News": 10,
+                  "Twitter": 5,
                   "Reddit": 0
                 },
                 {
@@ -246,9 +238,106 @@
             }
           );
         </script>
+
+        <!--Activity fluctuation> <!-->
+        <!-- amCharts javascript sources -->
+        <script type="text/javascript" src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+        <script type="text/javascript" src="https://www.amcharts.com/lib/3/serial.js"></script>
+        <script type="text/javascript" src="https://www.amcharts.com/lib/3/themes/dark.js"></script>
+
+        <!-- amCharts javascript code -->
+        <script type="text/javascript">
+          AmCharts.makeChart("chart3div",
+            {
+              "type": "serial",
+              "categoryField": "date",
+              "dataDateFormat": "YYYY-MM-DD HH",
+              "color": "#FFFFFF",
+              "theme": "dark",
+              "categoryAxis": {
+                "minPeriod": "hh",
+                "parseDates": true,
+                "gridThickness": 0
+
+              },
+              "chartCursor": {
+                "enabled": true,
+                "categoryBalloonDateFormat": "JJ:NN"
+              },
+              "trendLines": [],
+              "graphs": [
+
+                {
+                  "fillAlphas": 0.0,
+                  "fillColors": "#FFFFFF",
+                  "gapPeriod": 0,
+                  "id": "AmGraph-4",
+                  "lineColor": "#87D37C",
+                  "lineAlpha": 1,
+                  "lineThickness": 5,
+                  "title": "Activity",
+                  "valueField": "Activity"
+                }
+              ],
+              "guides": [],
+              "valueAxes": [
+                {
+                  "id": "ValueAxis-1",
+                  "stackType": "regular",
+                  "tickLength": 0,
+                  "title": "",
+                  "gridThickness": 0,
+                }
+              ],
+              "allLabels": [],
+              "balloon": {},
+              "legend": {
+                "enabled": false
+              },
+              "titles": [
+                {
+                  "id": "Title-1",
+                  "size": 15,
+                  "text": ""
+                }
+              ],
+              "dataProvider": [
+                {
+                  "date": "2014-03-01 09",
+                  "Activity": "-588"
+                },
+                {
+                  "date": "2014-03-01 10",
+                  "Activity": "766"
+                },
+                {
+                  "date": "2014-03-01 11",
+                  "Activity": "-874"
+                },
+                {
+                  "date": "2014-03-01 12",
+                  "Activity": "-896"
+                },
+                {
+                  "date": "2014-03-01 13",
+                  "Activity": "483"
+                },
+                {
+                  "date": "2014-03-01 14",
+                  "Activity": "-523"
+                },
+                {
+                  "date": "2014-03-01 15",
+                  "Activity": "823"
+                }
+              ]
+            }
+          );
+        </script>
+
   </head>
-  <body>
-  <div class="col-xs-12">
+<body>  <div class="col-xs-12">
+
     <!--Top Bar> <!-->
       <div class="row header">
         <div class="col-xs-3 header"></div>
@@ -268,15 +357,14 @@
       </div>
 
     <!--Datablock> <!-->
-
-          <div class="row">
+      <div class="row">
               <center><div class="col-xs-12"><h3 id="title">{{ title }}</h3><img class="icon" src= "{{ url }}" alt="{{ title }}">
               </div></center>
           </div>
-
-          <div class="row">
-            <div class="col-xs-1 col-md-4"></div>
-            <div class="col-xs-10 col-md-4 datablock">
+      <div class="row">
+          <div class="col-xs-12">
+            <div class="hidden-xs col-md-4"></div>
+            <div class="col-xs-12 col-md-4 datablock">
             <div class="col-xs-1 col-md-4"></div>
               <div class="row">
                     <center><div class="col-xs-12">
@@ -311,12 +399,15 @@
               </div>
 
             </div>
-            <div class="col-xs-1"></div>
+            <div class="hidden-xs col-md-4"></div>
           </div>
+          </div>
+
     <!--Tradeblock> <!-->
       <div class="row">
-            <div class="col-xs-1 col-md-4"></div>
-            <div class="col-xs-10 col-md-4 datablock">
+          <div class="col-xs-12">
+            <div class="hidden-xs col-md-4"></div>
+            <div class="col-xs-12 col-md-4 datablock">
 
               <div class="row">
                     <center><div class="col-xs-12">
@@ -333,7 +424,8 @@
                     </div></center>
               </div>
             </div>
-            <div class="col-xs-1 col-md-4"></div>
+            <div class="hidden-xs col-md-4"></div>
+          </div>
           </div>
       <div class="row">
                 <div class="hidden-xs col-md-4"></div>
@@ -351,10 +443,9 @@
 
     <!--Price Graph> <!-->
       <div class="row">
-          <center><div class="col-xs-12"><h3>Price fluctuation</h3>
+          <center><div class="col-xs-12"><h3>Price</h3>
         </div></center>
       </div>
-
       <div class="row">
         <div class="col-md-2 hidden-xs"></div>
         <div class="col-md-8 col-xs-12">
@@ -363,15 +454,51 @@
         <div class="col-md-2 hidden-xs"></div>
       </div>
 
-    <!--Score Graph> <!-->
+    <!--Sentiment Graph> <!-->
       <div class="row">
-        <center><div class="col-xs-12"><h3>Score</h3>
+        <center><div class="col-xs-12"><h3>Sentiment analysis</h3>
           </div></center>
+      </div>
+      <div class="row">
+            <div class="xs-hidden col-md-3"></div>
+            <div class="col-xs-12 col-md-6">
+
+              <div class="row">
+                    <center><div class="col-xs-12">
+                      <div class="col-md-5 col-xs-12 datablock test">
+                          <div class="col-xs-12 textgrid bold">Likely event</div>
+                          <div class="col-xs-12 textgrid">({ likelyEvent })</div>
+                      </div>
+                      <div class="col-md-2 hidden-xs textgrid"></div>
+                      <div class="col-md-5 col-xs-12 datablock test">
+                          <div class="col-xs-12 textgrid bold">Event chance</div>
+                          <div class="col-xs-12 textgrid">({ eventChance })%</div>
+                      </div>
+                    </div></center>
+              </div>
+
+            </div>
+            <div class="xs-hidden col-md-3"></div>
+          </div>
+      <div class="row">
           <div class="col-md-2 hidden-xs"></div>
           <div class="col-xs-12 col-md-8">
                 <div id="chart1div" style="width: 100%; height: 400px;" ></div>
           </div>
           <div class="col-md-2 hidden-xs"></div>
+      </div>
+
+    <!--Price Graph> <!-->
+      <div class="row">
+          <center><div class="col-xs-12"><h3>Activity analysis</h3>
+        </div></center>
+      </div>
+      <div class="row">
+        <div class="col-md-2 hidden-xs"></div>
+        <div class="col-md-8 col-xs-12">
+            <div id="chart3div" class="graph" style="width: 100%; height: 400px;" ></div>
+        </div>
+        <div class="col-md-2 hidden-xs"></div>
       </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -443,8 +570,8 @@
               });
             alert(amount * price);
           });
-
       });
+
   </script>
   </body>
 </html>
