@@ -18,13 +18,12 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-
-        <!--Price fluctuation> <!-->
         <!-- amCharts javascript sources -->
         <script type="text/javascript" src="https://www.amcharts.com/lib/3/amcharts.js"></script>
         <script type="text/javascript" src="https://www.amcharts.com/lib/3/serial.js"></script>
         <script type="text/javascript" src="https://www.amcharts.com/lib/3/themes/dark.js"></script>
 
+        <!--Price fluctuation> <!-->
         <!-- amCharts javascript code -->
         <script type="text/javascript">
           AmCharts.makeChart("chart2div",
@@ -115,136 +114,121 @@
           );
         </script>
 
-        <!--Activity Sentiment Score> <!-->
-        <!-- Scorechart javascript sources -->
-        <script type="text/javascript" src="https://www.amcharts.com/lib/3/amcharts.js"></script>
-        <script type="text/javascript" src="https://www.amcharts.com/lib/3/serial.js"></script>
-        <script type="text/javascript" src="https://www.amcharts.com/lib/3/themes/dark.js"></script>
-
+        <!--Event Graph> <!-->
         <!-- amCharts javascript code -->
-        <script type="text/javascript">
-          AmCharts.makeChart("chart1div",
-            {
-              "type": "serial",
-              "categoryField": "date",
-              "dataDateFormat": "YYYY-MM-DD HH",
-              "color": "#FFFFFF",
-              "theme": "dark",
-              "categoryAxis": {
-                "minPeriod": "hh",
-                "parseDates": true,
-                "gridThickness": 0
+		<script type="text/javascript">
+			AmCharts.makeChart("chart4div",
+				{
+					"type": "serial",
+					"categoryField": "category",
+                    	"rotate": true,
+                    "color": "#FFFFFF",
+					"startDuration": 1,
+					"categoryAxis": {
+						"gridPosition": "start",
+                        "gridThickness": 0,
+                        "axisColor": "#FFFFFF",
+                        "axisAlpha": 0.5,
+					},
+						"trendLines": [
+                            {
+                                "balloonText": "",
+                                "dashLength": 3,
+                                "finalCategory": "Price Increase",
+                                "finalValue": 11,
+                                "id": "TrendLine-1",
+                                "initialCategory": "Banned From Country",
+                                "initialValue": 11,
+                                "lineAlpha": 0.72,
+                                "lineColor": "#FFFFFF",
+                                "lineThickness": 2
+                            }
+                        ],
+					"graphs": [
+						{
+							"colorField": "color",
+							"fillAlphas": 1,
+							"id": "AmGraph-1",
+							"lineColorField": "#FFFFFF",
+							"title": "graph 1",
+							"type": "column",
+							"valueField": "column-1",
+                            "lineThickness": 0,
+						}
+					],
+					"guides": [],
+					"valueAxes": [
+                        {
+                          "id": "ValueAxis-1",
+                          "stackType": "regular",
+                          "tickLength": 0,
+                          "title": "",
+                          "gridThickness": 0,
+                            "axisColor": "#FFFFFF",
+                            "axisAlpha": 0.5,
+                        }
+                      ],
+					"allLabels": [],
+					"balloon": {},
+					"titles": [
+						{
+							"id": "Title-1",
+							"size": 15,
+							"text": ""
+						}
+					],
+					"dataProvider": [
+						{
+							"category": "Banned From Country",
+							"column-1": "8",
+							"color": "red"
+						},
+						{
+							"category": "Hacked Exchange",
+							"column-1": 16,
+							"color": "red"
+						},
+						{
+							"category": "Price Drop",
+							"column-1": 2,
+							"color": "red"
+						},
+						{
+							"category": "Taxation",
+							"column-1": 7,
+							"color": "red"
+						},
+						{
+							"category": "Market Place Acceptance",
+							"column-1": 9,
+							"color": "green"
+						},
+						{
+							"category": "Halving Day",
+							"column-1": 4,
+							"color": "green"
+						},
+						{
+							"category": "Bailout",
+							"color": "green",
+							"column-1": 15
+						},
+						{
+							"category": "Coin Acception",
+							"column-1": "2",
+							"color": "green"
+						},
+						{
+							"category": "Price Increase",
+							"column-1": "3",
+							"color": "green"
+						}
+					]
+				}
+			);
+		</script>
 
-              },
-              "chartCursor": {
-                "enabled": true,
-                "categoryBalloonDateFormat": "JJ:NN"
-              },
-              "trendLines": [],
-              "graphs": [
-                {
-                  "fillAlphas": 1,
-                  "fillColors": "#90C695",
-                  "id": "AmGraph-1",
-                  "lineAlpha": 0,
-                  "tabIndex": 0,
-                  "title": "Reddit",
-                  "valueField": "Reddit"
-                },
-                {
-                  "fillAlphas": 1,
-                  "fillColors": "#87D37C",
-                  "id": "AmGraph-2",
-                  "lineAlpha": 0,
-                  "title": "Twitter",
-                  "valueField": "Twitter"
-                },
-                {
-                  "fillAlphas": 1,
-                  "fillColors": "#C8F7C5",
-                  "id": "AmGraph-3",
-                  "lineThickness": 0,
-                  "lineColor": "#C8F7C5",
-                  "title": "News",
-                  "valueField": "News"
-                }
-              ],
-              "guides": [],
-              "valueAxes": [
-                {
-                  "id": "ValueAxis-1",
-                  "gridThickness": 0,
-                  "stackType": "regular",
-                  "tickLength": 0,
-                  "title": ""
-                }
-              ],
-              "allLabels": [],
-              "balloon": {},
-              "legend": {
-                "enabled": true
-              },
-              "titles": [
-                {
-                  "id": "Title-1",
-                  "size": 15,
-                  "text": ""
-                }
-              ],
-              "dataProvider": [
-                {
-                  "date": "2014-03-01 08",
-                  "News": -10,
-                  "Twitter": 2,
-                  "Reddit": 0
-                },
-                {
-                  "date": "2014-03-01 09",
-                  "News": 10,
-                  "Twitter": 5,
-                  "Reddit": 0
-                },
-                {
-                  "date": "2014-03-01 10",
-                  "News": 0,
-                  "Twitter": 0,
-                  "Reddit": 0
-                },
-                {
-                  "date": "2014-03-01 11",
-                  "News": 0,
-                  "Twitter": 0,
-                  "Reddit": 0
-                },
-                {
-                  "date": "2014-03-01 12",
-                  "News": 0,
-                  "Twitter": 0,
-                  "Reddit": 0
-                },
-                {
-                  "date": "2014-03-01 13",
-                  "News": 0,
-                  "Twitter": 0,
-                  "Reddit": 0
-                },
-                {
-                  "date": "2014-03-01 14",
-                  "News": 0,
-                  "Twitter": 0,
-                  "Reddit": 0
-                }
-              ]
-            }
-          );
-        </script>
-
-        <!--Activity fluctuation> <!-->
-        <!-- amCharts javascript sources -->
-        <script type="text/javascript" src="https://www.amcharts.com/lib/3/amcharts.js"></script>
-        <script type="text/javascript" src="https://www.amcharts.com/lib/3/serial.js"></script>
-        <script type="text/javascript" src="https://www.amcharts.com/lib/3/themes/dark.js"></script>
-
+        <!--Twitter Graph> <!-->
         <!-- amCharts javascript code -->
         <script type="text/javascript">
           AmCharts.makeChart("chart3div",
@@ -257,7 +241,7 @@
               "categoryAxis": {
                 "minPeriod": "hh",
                 "parseDates": true,
-                "gridThickness": 0
+                "gridThickness": 0,
 
               },
               "chartCursor": {
@@ -272,12 +256,26 @@
                   "fillColors": "#FFFFFF",
                   "gapPeriod": 0,
                   "id": "AmGraph-4",
-                  "lineColor": "#87D37C",
+                  "lineColor": "#C8F7C5",
                   "lineAlpha": 1,
                   "lineThickness": 5,
                   "title": "Activity",
-                  "valueField": "Activity"
+                  "valueField": "Activity",
+                    "valueAxis": "ValueAxis-1",
+                },
+                {
+                  "fillAlphas": 0.0,
+                  "fillColors": "#FFFFFF",
+                  "gapPeriod": 0,
+                  "id": "AmGraph-4",
+                  "lineColor": "#87D37C",
+                  "lineAlpha": 1,
+                  "lineThickness": 5,
+                  "title": "Sentiment",
+                  "valueField": "Sentiment",
+                    "valueAxis": "ValueAxis-2",
                 }
+
               ],
               "guides": [],
               "valueAxes": [
@@ -287,6 +285,14 @@
                   "tickLength": 0,
                   "title": "",
                   "gridThickness": 0,
+                },
+                {
+                  "id": "ValueAxis-2",
+                  "stackType": "regular",
+                  "tickLength": 0,
+                  "title": "",
+                    "position": "right",
+                  "gridThickness": 1,
                 }
               ],
               "allLabels": [],
@@ -304,31 +310,39 @@
               "dataProvider": [
                 {
                   "date": "2014-03-01 09",
-                  "Activity": "-588"
+                  "Activity": "-588",
+                    "Sentiment": "60"
+
                 },
                 {
                   "date": "2014-03-01 10",
-                  "Activity": "766"
+                  "Activity": "766",
+                    "Sentiment": "60"
                 },
                 {
                   "date": "2014-03-01 11",
-                  "Activity": "-874"
+                  "Activity": "-874",
+                    "Sentiment": "60"
                 },
                 {
                   "date": "2014-03-01 12",
-                  "Activity": "-896"
+                  "Activity": "-896",
+                    "Sentiment": "60"
                 },
                 {
                   "date": "2014-03-01 13",
-                  "Activity": "483"
+                  "Activity": "483",
+                    "Sentiment": "60"
                 },
                 {
                   "date": "2014-03-01 14",
-                  "Activity": "-523"
+                  "Activity": "-523",
+                    "Sentiment": "60"
                 },
                 {
                   "date": "2014-03-01 15",
-                  "Activity": "823"
+                  "Activity": "823",
+                    "Sentiment": "60"
                 }
               ]
             }
@@ -448,49 +462,44 @@
       </div>
       <div class="row">
         <div class="col-md-2 hidden-xs"></div>
-        <div class="col-md-8 col-xs-12">
+        <div class="col-md-7 col-xs-10">
             <div id="chart2div" class="graph" style="width: 100%; height: 400px;" ></div>
+        </div>
+        <div class="col-md-1 col-xs-2" style="padding-top:125px;">
+            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#FFFFFF;}
+
+</style>
+<g>
+	<rect x="21.4" y="13" class="st0" width="3.3" height="20.6"/>
+</g>
+<g>
+	<polygon class="st0" points="29.8,17.3 16.4,17.3 23.1,7.7 	"/>
+</g>
+</svg>
+
         </div>
         <div class="col-md-2 hidden-xs"></div>
       </div>
 
-    <!--Sentiment Graph> <!-->
+    <!--Event Graph> <!-->
       <div class="row">
-        <center><div class="col-xs-12"><h3>Sentiment analysis</h3>
+        <center><div class="col-xs-12"><h3>Event prediction</h3>
           </div></center>
       </div>
       <div class="row">
-            <div class="xs-hidden col-md-3"></div>
-            <div class="col-xs-12 col-md-6">
-
-              <div class="row">
-                    <center><div class="col-xs-12">
-                      <div class="col-md-5 col-xs-12 datablock test">
-                          <div class="col-xs-12 textgrid bold">Likely event</div>
-                          <div class="col-xs-12 textgrid">({ likelyEvent })</div>
-                      </div>
-                      <div class="col-md-2 hidden-xs textgrid"></div>
-                      <div class="col-md-5 col-xs-12 datablock test">
-                          <div class="col-xs-12 textgrid bold">Event chance</div>
-                          <div class="col-xs-12 textgrid">({ eventChance })%</div>
-                      </div>
-                    </div></center>
-              </div>
-
-            </div>
-            <div class="xs-hidden col-md-3"></div>
-          </div>
-      <div class="row">
           <div class="col-md-2 hidden-xs"></div>
           <div class="col-xs-12 col-md-8">
-                <div id="chart1div" style="width: 100%; height: 400px;" ></div>
+                <div id="chart4div" style="width: 100%; height: 400px;" ></div>
           </div>
           <div class="col-md-2 hidden-xs"></div>
       </div>
 
-    <!--Price Graph> <!-->
+    <!--Twitter Graph> <!-->
       <div class="row">
-          <center><div class="col-xs-12"><h3>Activity analysis</h3>
+          <center><div class="col-xs-12"><h3>Twitter analysis</h3>
         </div></center>
       </div>
       <div class="row">
@@ -502,10 +511,10 @@
       </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-                <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="/static/js/lastTickValues.js"></script>
+      <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+      <script type="text/javascript" src="/static/js/lastTickValues.js"></script>
   </div>
 
   <script>
