@@ -66,6 +66,22 @@ def rscript():
     print (scores)
     return json.dumps(scores)
 
+@app.route('/sentiment', methods=['GET','POST'])
+def sentiment():
+    scores = []
+    path =  os.path.dirname(sys.modules['__main__'].__file__)
+
+    with open(path+'/sentiment_event_score.csv') as csvfile:
+        reader = csv.DictReader(csvfile)
+        count = 0
+        for row in reader:
+            count +=1
+            score = {}
+            if count > 1:
+                score['event'] = row['event']
+                score['percentage'] = row['percentage']
+                scores.append(score)
+    return json.dumps(scores)
 
 @app.route('/login', methods=['GET', 'POST'])
 def loginForm():

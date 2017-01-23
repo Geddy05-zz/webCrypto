@@ -34,6 +34,22 @@ function twitter(){
     });
 }
 
+function sentiment(){
+    element = document.getElementById("title")
+    var text = element.innerText || element.textContent;
+           $.ajax({
+        type: 'GET',
+        url: '/sentiment',
+               data: { "coin": text},
+        dataType: 'json',
+        success: function (data) {
+            // for (var x in data) {
+            draw_sentiment(data);
+            // }
+        }
+    });
+}
+
 function updateScore(data) {
     var last = parseInt(data[data.length - 1].price_usd);
     var first = parseInt(data[0].price_usd);
@@ -44,6 +60,81 @@ function updateScore(data) {
     }
     element = document.getElementById("score");
     element.innerHTML = change.toFixed(2)
+}
+
+function draw_sentiment(data){
+           var a = [];
+
+    for (var i = 0, len = data.length; i < len; i++) {
+        var tick = data[i];
+        a.push({"category": tick.event,
+                "column-1": tick.percentage,
+                "color": "red"});
+    }
+
+    AmCharts.makeChart("chart4div",
+				{
+					"type": "serial",
+					"categoryField": "category",
+                    	"rotate": true,
+                    "color": "#FFFFFF",
+					"startDuration": 1,
+					"categoryAxis": {
+						"gridPosition": "start",
+                        "gridThickness": 0,
+                        "axisColor": "#FFFFFF",
+                        "axisAlpha": 0.5,
+					},
+						"trendLines": [
+                            {
+                                "balloonText": "",
+                                "dashLength": 3,
+                                "finalCategory": "Price Increase",
+                                "finalValue": 11,
+                                "id": "TrendLine-1",
+                                "initialCategory": "Banned From Country",
+                                "initialValue": 11,
+                                "lineAlpha": 0.72,
+                                "lineColor": "#FFFFFF",
+                                "lineThickness": 2
+                            }
+                        ],
+					"graphs": [
+						{
+							"colorField": "color",
+							"fillAlphas": 1,
+							"id": "AmGraph-1",
+							"lineColorField": "#FFFFFF",
+							"title": "graph 1",
+							"type": "column",
+							"valueField": "column-1",
+                            "lineThickness": 0,
+						}
+					],
+					"guides": [],
+					"valueAxes": [
+                        {
+                          "id": "ValueAxis-1",
+                          "stackType": "regular",
+                          "tickLength": 0,
+                          "title": "",
+                          "gridThickness": 0,
+                            "axisColor": "#FFFFFF",
+                            "axisAlpha": 0.5,
+                        }
+                      ],
+					"allLabels": [],
+					"balloon": {},
+					"titles": [
+						{
+							"id": "Title-1",
+							"size": 15,
+							"text": ""
+						}
+					],
+					"dataProvider": a
+				}
+    );
 }
 
 function draw_live_twitter(data) {
@@ -199,4 +290,5 @@ function draw_live_ticks(data) {
           );
 }
 do_request();
+sentiment();
 twitter();
