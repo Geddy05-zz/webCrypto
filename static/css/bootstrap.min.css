@@ -34,6 +34,10 @@ a:visited {
 	color: white ;
 }
 
+.large {
+	font-size:500px!important;
+}
+
 .tablehead{
 	padding-top: 50px;
 	padding-bottom:10px;
@@ -105,7 +109,7 @@ a:visited {
 
 .loginButton{
 	 border-radius:30px;
-	 padding: 15px;
+	 padding: 20px;
 	 padding-left: 30px;
 	 padding-right: 30px;
 	 background-color: #FFC761;
@@ -176,12 +180,12 @@ a:visited {
 	border-radius:30px;
 	padding-top:15px;
 	margin-bottom:25px;
+	margin-top:25px;
 	padding-bottom:15px;
 	border-style: solid;
 	border-color: white;
 	border-width: 1px;
-	box-shadow: 2px 8px 10px rgba(0,0,0,0.1)
-
+	box-shadow: 2px 8px 10px rgba(0,0,0,0.1);
 }
 
 .formblock{
