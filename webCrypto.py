@@ -17,7 +17,7 @@ mongo = MongoDB()
 app = Flask(__name__)
 application = app
 
-
+# configuration for firebase
 config = {
   "apiKey": "AIzaSyAU9tWB9Op8u9ABG91vznQOMZWQARxLBio",
   "authDomain": "wolfofwallstreet-dec9b.firebaseapp.com",
@@ -34,21 +34,21 @@ def index():
 
 @app.route('/twitter', methods=['GET','POST'])
 def rscript():
-    # Define command and arguments
-    command = 'Rscript'
-    path2script = 'TwitterCorrelationFullCode.R'
-
+    coin = request.args.get("coin")
+    print(coin)
     path =  os.path.dirname(sys.modules['__main__'].__file__)
-    print(path)
-    # Variable number of args in a list
-    args = ['11', '3', '9', '42']
 
-    # Build subprocess command
-    # "Rscript --vanilla TwitterCorrelationFullCode.R",
-    cmd = [command, path2script]
+    # TODO: this uncommand this block for local
+    x = subprocess.check_output("Rscript --vanilla "+path+"/TwitterScore"+coin+".R",stderr=subprocess.STDOUT,shell = True)
 
-    # a = r.source(path +"/TwitterScore.R")
-    x = subprocess.check_output("Rscript --vanilla "+path+"/TwitterScore.R", shell=True)
+    #TODO: command this for local
+    # try:
+    #     output = subprocess.check_output("echo h7Dx34|sudo -S Rscript --vanilla /home/webCrypto/TwitterScore"+coin+".R",stderr=subprocess.STDOUT,shell = True)
+    #     returncode = 0
+    # except subprocess.CalledProcessError as e:
+    #     output = e.output
+    #     returncode = e.returncode
+    #TODO: comment till here
 
     with open('resultsTwitterScore.csv') as csvfile:
         reader = csv.DictReader(csvfile)
@@ -142,6 +142,7 @@ def xrp():
     user = {'nickname': 'Wolf of Bitcoin'}
     return render_template('xrp.html',
                            title='Ripple',
+                           url="https://coinmarketcap.com/static/img/coins/16x16/ripple.png",
                            user=user,
                            currency_value=data
                            )
@@ -237,5 +238,5 @@ if __name__ == '__main__':
     # app.config["SECRET_KEY"] = "WOLFOFWALLSTREET"
     firebase = pyrebase.initialize_app(config)
     app.debug = True
-    app.run(host='0.0.0.0' , port=8000)
+    app.run(host='0.0.0.0' , port=5000)
 
