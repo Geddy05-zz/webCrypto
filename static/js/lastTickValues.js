@@ -56,7 +56,7 @@ function draw_live_twitter(data) {
                   "Twitter": tick.score})
     }
     console.log(a);
-    AmCharts.makeChart("chart1div",
+    AmCharts.makeChart("chart3div",
             {
               "type": "serial",
               "categoryField": "date",
