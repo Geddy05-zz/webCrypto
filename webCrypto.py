@@ -11,6 +11,8 @@ import pyrebase
 from MongoDB import MongoDB
 from datetime import datetime
 
+from trade_currency import trade_currency
+
 mongo = MongoDB()
 app = Flask(__name__)
 application = app
@@ -220,50 +222,16 @@ def get_user_info():
 
 @app.route('/buyCurrency', methods=['POST'])
 def buy_currency():
-    db = firebase.database()
-    token = request.headers["token"]
-    uid = request.headers["uid"]
-    data = request.json
-    budget = db.child("users/" + uid).child("data").get(token=token).val()['budget']
+    trade = trade_currency().buy_currency(firebase,request)
 
-    owned_currency = db.child("users/" + uid).child("data").get(token=token).val()['currencies']
-    print(owned_currency)
-    if (float(data['price']) < float(budget)):
-        newbudget = float(budget) - float(data['price'])
-        owned_currency[data["currency"]] += float(data["amount"])
-        save = {
-            "budget": newbudget,
-            "currencies": owned_currency,
-        }
-        db.child("users/" + uid).child("data").update(save, token=token)
-
-        return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
-
-    return json.dumps({'success':False}), 200, {'ContentType':'application/json'}
+    return json.dumps({'success':trade}), 200, {'ContentType':'application/json'}
 
 
 @app.route('/sellCurrency', methods=['POST'])
 def sell_currency():
-    db = firebase.database()
-    token = request.headers["token"]
-    uid = request.headers["uid"]
-    data = request.json
-    budget = db.child("users/" + uid).child("data").get(token=token).val()['budget']
+    trade_currency().sell_currency(firebase,request)
 
-    owned_currency = db.child("users/" + uid).child("data").get(token=token).val()['currencies']
-    print(owned_currency)
-    if (float(data['price']) < float(budget)):
-        newbudget = float(budget) + float(data['price'])
-        owned_currency[data["currency"]] -= float(data["amount"])
-        save = {
-            "budget": newbudget,
-            "currency": owned_currency,
-        }
-        db.child("users/" + uid).child("data").update(save, token=token)
-
-        return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
-
-    return json.dumps({'success':False}), 200, {'ContentType':'application/json'}
+    return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
 
 if __name__ == '__main__':
     # app.config["SECRET_KEY"] = "WOLFOFWALLSTREET"
