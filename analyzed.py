@@ -1,0 +1,57 @@
+import subprocess
+import csv
+import os
+import sys
+from datetime import datetime
+
+
+class analyzed():
+
+    @classmethod
+    def twitter(cls,coin ,debug = False):
+        path = os.path.dirname(sys.modules['__main__'].__file__)
+
+        if debug:
+            x = subprocess.check_output("Rscript --vanilla " + path + "/TwitterScore" + coin + ".R",
+                                        stderr=subprocess.STDOUT, shell=True)
+
+        else:
+            try:
+                output = subprocess.check_output("echo h7Dx34|sudo -S Rscript --vanilla /home/webCrypto/TwitterScore"+coin+".R",stderr=subprocess.STDOUT,shell = True)
+                returncode = 0
+            except subprocess.CalledProcessError as e:
+                output = e.output
+                returncode = e.returncode
+
+        with open('resultsTwitterScore.csv') as csvfile:
+            reader = csv.DictReader(csvfile)
+            scores = []
+            for row in reader:
+                score = {}
+
+                date = datetime.fromtimestamp(
+                    float(row["tStamp"])
+                ).strftime('%d-%m %H:%M')
+
+                score["date"] = date
+                score["score"] = row["score"]
+                scores.append(score)
+        return scores
+
+    @classmethod
+    def sentiment(cls):
+        scores = []
+        path = os.path.dirname(sys.modules['__main__'].__file__)
+
+        with open(path + '/sentiment_event_score.csv') as csvfile:
+            reader = csv.DictReader(csvfile)
+            count = 0
+            for row in reader:
+                count += 1
+                score = {}
+                if count > 1:
+                    score['event'] = row['event']
+                    score['percentage'] = row['percentage']
+                    scores.append(score)
+
+        return scores

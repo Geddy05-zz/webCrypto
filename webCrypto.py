@@ -9,13 +9,14 @@ from flask import render_template
 from flask import request
 import pyrebase
 from MongoDB import MongoDB
-from datetime import datetime
+from analyzed import analyzed
 
 from trade_currency import trade_currency
 
 mongo = MongoDB()
 app = Flask(__name__)
 application = app
+debug = True
 
 # configuration for firebase
 config = {
@@ -35,56 +36,17 @@ def index():
 @app.route('/twitter', methods=['GET','POST'])
 def rscript():
     coin = request.args.get("coin")
-    print(coin)
-    path =  os.path.dirname(sys.modules['__main__'].__file__)
-
-    # TODO: this uncommand this block for local
-    x = subprocess.check_output("Rscript --vanilla "+path+"/TwitterScore"+coin+".R",stderr=subprocess.STDOUT,shell = True)
-
-    #TODO: command this for local
-    # try:
-    #     output = subprocess.check_output("echo h7Dx34|sudo -S Rscript --vanilla /home/webCrypto/TwitterScore"+coin+".R",stderr=subprocess.STDOUT,shell = True)
-    #     returncode = 0
-    # except subprocess.CalledProcessError as e:
-    #     output = e.output
-    #     returncode = e.returncode
-    #TODO: comment till here
-
-    with open('resultsTwitterScore.csv') as csvfile:
-        reader = csv.DictReader(csvfile)
-        scores = []
-        for row in reader:
-            score = {}
-
-            date = datetime.fromtimestamp(
-                float(row["tStamp"])
-            ).strftime('%d-%m %H:%M')
-
-            score["date"] = date
-            score["score"] = row["score"]
-            scores.append(score)
-    print (scores)
+    scores = analyzed().twitter(coin = coin,debug=debug)
     return json.dumps(scores)
 
 @app.route('/sentiment', methods=['GET','POST'])
 def sentiment():
-    scores = []
-    path =  os.path.dirname(sys.modules['__main__'].__file__)
-
-    with open(path+'/sentiment_event_score.csv') as csvfile:
-        reader = csv.DictReader(csvfile)
-        count = 0
-        for row in reader:
-            count +=1
-            score = {}
-            if count > 1:
-                score['event'] = row['event']
-                score['percentage'] = row['percentage']
-                scores.append(score)
+    scores = analyzed.sentiment()
     return json.dumps(scores)
 
+
 @app.route('/login', methods=['GET', 'POST'])
-def loginForm():
+def login_form():
     if request.method == 'POST':
         try:
             auth = firebase.auth()
@@ -191,15 +153,8 @@ def getprofile():
                 data.append(currency)
 
             return json.dumps(data)
-
-
-
-    if len(data) == 0:
-        data = [["Bitcoin" , 0,2,1712],
-                ["Ethereum" , 0,2,1712],
-                ["Litecoin" , 0,2,1712],
-                ["Monero" , 0,2,1712],
-                ["Ripple" , 0,2,1712]]
+    else:
+        data = tempdata
 
     return render_template('profile.html',
                            title='Bitcoin',
