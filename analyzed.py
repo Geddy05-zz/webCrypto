@@ -52,7 +52,7 @@ class analyzed():
             returncode = 0
 
 
-        with open('sentiment_event_score.csv') as csvfile:
+        with open('sentimentEventScore.csv') as csvfile:
             reader = csv.DictReader(csvfile)
             count = 0
             for row in reader:
