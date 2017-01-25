@@ -55,7 +55,7 @@ class analyzed():
                 returncode = e.returncode
 
 
-        with open(path + '/sentiment_event_score.csv') as csvfile:
+        with open(path + 'sentiment_event_score.csv') as csvfile:
             reader = csv.DictReader(csvfile)
             count = 0
             for row in reader:
