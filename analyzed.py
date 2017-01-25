@@ -44,10 +44,10 @@ class analyzed():
         path = os.path.dirname(sys.modules['__main__'].__file__)
         print(coin)
         if debug:
-            x = subprocess.check_output("Rscript --vanilla " + path + "/EventScore" + coin + ".R",
+            x = subprocess.check_output("Rscript --vanilla " + path + "EventScore" + coin + ".R",
                                         stderr=subprocess.STDOUT, shell=True)
         else:
-            output = subprocess.check_output("echo h7Dx34|sudo -S Rscript --vanilla "+path+"/EventScore"+coin+".R",
+            output = subprocess.check_output("echo h7Dx34|sudo -S Rscript --vanilla EventScore"+coin+".R",
                                              stderr=subprocess.STDOUT,shell = True)
             returncode = 0
 
