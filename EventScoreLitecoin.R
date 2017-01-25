@@ -8,7 +8,7 @@ library(tm)
 library(SnowballC)
 library(plyr)
 
-Sys.setlocale("LC_ALL","English")
+dumpVar<-Sys.setlocale("LC_ALL","English")
 maxDate <- Sys.time()
 minDate <- maxDate - 3600 * 12 # hours
 minDate <- as.integer(as.POSIXct(strptime(minDate,"%Y-%m-%d %H:%M:%S"))) * 1000
