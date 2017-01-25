@@ -198,6 +198,6 @@ sentiment_event <- data.frame(event, pos.neg)
 sentiment_percentages <- merge(sentiment_percentages, sentiment_event, by="event")
 sentiment_percentages <- sentiment_percentages[order(sentiment_percentages[,2], decreasing = T),]
 
-write.csv(sentiment_percentages, file = "sentiment_event_score.csv")
+write.csv(sentiment_percentages, file = "sentimentEventScore.csv")
 rm(list = ls())
 
