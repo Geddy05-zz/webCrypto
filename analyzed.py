@@ -39,9 +39,22 @@ class analyzed():
         return scores
 
     @classmethod
-    def sentiment(cls):
+    def sentiment(cls,coin, debug = False):
         scores = []
         path = os.path.dirname(sys.modules['__main__'].__file__)
+
+        if debug:
+            x = subprocess.check_output("Rscript --vanilla " + path + "/EventScore" + coin + ".R",
+                                        stderr=subprocess.STDOUT, shell=True)
+
+        else:
+            try:
+                output = subprocess.check_output("echo h7Dx34|sudo -S Rscript --vanilla /home/webCrypto/EventScore"+coin+".R",stderr=subprocess.STDOUT,shell = True)
+                returncode = 0
+            except subprocess.CalledProcessError as e:
+                output = e.output
+                returncode = e.returncode
+
 
         with open(path + '/sentiment_event_score.csv') as csvfile:
             reader = csv.DictReader(csvfile)
