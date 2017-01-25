@@ -8,7 +8,7 @@ library(tm)
 library(SnowballC)
 library(plyr)
 
-#Sys.setlocale("LC_ALL","English")
+Sys.setlocale("LC_ALL","English")
 maxDate <- Sys.time()
 minDate <- maxDate - 3600 * 12 # hours
 minDate <- as.integer(as.POSIXct(strptime(minDate,"%Y-%m-%d %H:%M:%S"))) * 1000
@@ -101,8 +101,10 @@ if(nrow(r2)>0){
   
   data_text <- r3[1:unique_words,1:2]
   data_text <- tolower(rep(data_text[,1], data_text[,2]))
-  
-  data_keywords <- read.csv("eventKeyWords.csv", sep = ";")
+#  data_keywords <- read.csv("/Users/geddy/Documents/webCrypto/eventKeyWords.csv", sep = ";")
+#  data_keywords <- read.csv("eventKeyWords.csv", sep = ";")
+  data_keywords <- read.csv("/home/webCrypto/eventKeyWords.csv", sep = ";")
+
   
   j <- 20
   rows <- j + (c(1:9)-1)*100

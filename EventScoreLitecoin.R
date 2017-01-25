@@ -102,8 +102,9 @@ if(nrow(r2)>0){
   data_text <- r3[1:unique_words,1:2]
   data_text <- tolower(rep(data_text[,1], data_text[,2]))
   
-  data_keywords <- read.csv("eventKeyWords.csv", sep = ";")
-  
+#  data_keywords <- read.csv("eventKeyWords.csv", sep = ";")
+  data_keywords <- read.csv("/home/webCrypto/eventKeyWords.csv", sep = ";")
+
   j <- 20
   rows <- j + (c(1:9)-1)*100
   rows2 <- 1 + (c(1:9)-1)*100

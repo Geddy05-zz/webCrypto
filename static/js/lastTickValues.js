@@ -67,9 +67,15 @@ function draw_sentiment(data){
 
     for (var i = 0, len = data.length; i < len; i++) {
         var tick = data[i];
+        var color = "red";
+
+        if(tick.pos == "p"){
+            color = "green"
+        }
+
         a.push({"category": tick.event,
                 "column-1": tick.percentage,
-                "color": "red"});
+                "color": color});
     }
 
     AmCharts.makeChart("chart4div",

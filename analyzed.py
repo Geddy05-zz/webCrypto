@@ -46,7 +46,6 @@ class analyzed():
         if debug:
             x = subprocess.check_output("Rscript --vanilla " + path + "/EventScore" + coin + ".R",
                                         stderr=subprocess.STDOUT, shell=True)
-
         else:
             try:
                 output = subprocess.check_output("echo h7Dx34|sudo -S Rscript --vanilla /home/webCrypto/EventScore"+coin+".R",stderr=subprocess.STDOUT,shell = True)
@@ -65,6 +64,7 @@ class analyzed():
                 if count > 1:
                     score['event'] = row['event']
                     score['percentage'] = row['percentage']
+                    score['pos'] = row['pos.neg']
                     scores.append(score)
 
         return scores
