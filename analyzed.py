@@ -42,7 +42,7 @@ class analyzed():
     def sentiment(cls,coin, debug = False):
         scores = []
         path = os.path.dirname(sys.modules['__main__'].__file__)
-
+        print(coin)
         if debug:
             x = subprocess.check_output("Rscript --vanilla " + path + "/EventScore" + coin + ".R",
                                         stderr=subprocess.STDOUT, shell=True)
@@ -55,7 +55,7 @@ class analyzed():
                 returncode = e.returncode
 
 
-        with open(path + 'sentiment_event_score.csv') as csvfile:
+        with open('sentiment_event_score.csv') as csvfile:
             reader = csv.DictReader(csvfile)
             count = 0
             for row in reader:
