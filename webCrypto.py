@@ -13,7 +13,7 @@ from user import user
 mongo = MongoDB()
 app = Flask(__name__)
 application = app
-debug = True
+debug = False
 
 # configuration for firebase
 config = {
