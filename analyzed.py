@@ -23,7 +23,7 @@ class analyzed():
         #         output = e.output
         #         returncode = e.returncode
 
-        with open('twitterScore.csv') as csvfile:
+        with open(path+'/twitterScore.csv') as csvfile:
             reader = csv.DictReader(csvfile)
             scores = []
             for row in reader:

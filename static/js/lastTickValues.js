@@ -151,15 +151,15 @@ function draw_live_twitter(data) {
         var tick = data[i];
         var sentim = null;
         if(tick.sentiment != "NA"){
-            sentim = parseInt(tick.sentiment)
+            sentim = tick.sentiment
         }
 
         a.push({"date": tick.date,
-                  "Twitter": tick.score,
+                  "Activity": tick.score,
                     "Sentiment": sentim })
     }
     console.log(a);
-    AmCharts.makeChart("chart3div",
+     AmCharts.makeChart("chart3div",
             {
               "type": "serial",
               "categoryField": "date",
@@ -167,9 +167,10 @@ function draw_live_twitter(data) {
               "color": "#FFFFFF",
               "theme": "dark",
               "categoryAxis": {
-                  "labelFrequency":2,
-                  "minPeriod": "hh:mm",
-                  "gridThickness": 0
+                "labelFrequency":3,
+                    "minPeriod": "hh:mm",
+                    //"parseDates": true,
+                    "gridThickness": 0
 
               },
               "chartCursor": {
@@ -178,47 +179,55 @@ function draw_live_twitter(data) {
               },
               "trendLines": [],
               "graphs": [
+
                 {
-                  "fillAlphas": 1,
-                  "fillColors": "#90C695",
-                  "id": "AmGraph-1",
-                  "lineAlpha": 0,
-                  "tabIndex": 0,
-                  "title": "Reddit",
-                  "valueField": "Reddit"
-                },
-                {
-                  "fillAlphas": 1,
-                  "fillColors": "#87D37C",
-                  "id": "AmGraph-2",
-                  "lineAlpha": 0,
-                  "title": "Twitter",
-                  "valueField": "Twitter"
-                },
-                {
-                  "fillAlphas": 1,
-                  "fillColors": "#C8F7C5",
-                  "id": "AmGraph-3",
-                  "lineThickness": 0,
+                  "fillAlphas": 0.0,
+                  "fillColors": "#FFFFFF",
+                  "gapPeriod": 0,
+                  "id": "AmGraph-4",
                   "lineColor": "#C8F7C5",
-                  "title": "News",
-                  "valueField": "News"
+                  "lineAlpha": 1,
+                  "lineThickness": 5,
+                  "title": "Activity",
+                  "valueField": "Activity",
+                    "valueAxis": "ValueAxis-1",
+                },
+                {
+                  "fillAlphas": 0.0,
+                  "fillColors": "#FFFFFF",
+                  "gapPeriod": 0,
+                  "id": "AmGraph-4",
+                  "lineColor": "#87D37C",
+                  "lineAlpha": 1,
+                  "lineThickness": 5,
+                  "title": "Sentiment",
+                  "valueField": "Sentiment",
+                    "valueAxis": "ValueAxis-2",
                 }
+
               ],
               "guides": [],
               "valueAxes": [
                 {
                   "id": "ValueAxis-1",
-                  "gridThickness": 0,
                   "stackType": "regular",
                   "tickLength": 0,
-                  "title": ""
+                  "title": "",
+                  "gridThickness": 0,
+                },
+                {
+                  "id": "ValueAxis-2",
+                  "stackType": "regular",
+                  "tickLength": 0,
+                  "title": "",
+                    "position": "right",
+                  "gridThickness": 1,
                 }
               ],
               "allLabels": [],
               "balloon": {},
               "legend": {
-                "enabled": true
+                "enabled": false
               },
               "titles": [
                 {
@@ -227,10 +236,9 @@ function draw_live_twitter(data) {
                   "text": ""
                 }
               ],
-              "dataProvider":a
+              "dataProvider": a
             }
           );
-
 }
 
 function draw_live_ticks(data) {
