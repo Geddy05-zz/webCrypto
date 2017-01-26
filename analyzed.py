@@ -11,17 +11,17 @@ class analyzed():
     def twitter(cls,coin ,debug = False):
         path = os.path.dirname(sys.modules['__main__'].__file__)
 
-        # if debug:
-        #     x = subprocess.check_output("Rscript --vanilla " + path + "/TwitterScore" + coin + ".R",
-        #                                 stderr=subprocess.STDOUT, shell=True)
-        #
-        # else:
-        #     try:
-        #         output = subprocess.check_output("echo h7Dx34|sudo -S Rscript --vanilla /home/webCrypto/TwitterScore"+coin+".R",stderr=subprocess.STDOUT,shell = True)
-        #         returncode = 0
-        #     except subprocess.CalledProcessError as e:
-        #         output = e.output
-        #         returncode = e.returncode
+        if debug:
+            x = subprocess.check_output("Rscript --vanilla " + path + "/twitterCombi" + coin + ".R",
+                                        stderr=subprocess.STDOUT, shell=True)
+
+        else:
+            try:
+                output = subprocess.check_output("echo h7Dx34|sudo -S Rscript --vanilla /home/webCrypto/twitterCombi"+coin+".R",stderr=subprocess.STDOUT,shell = True)
+                returncode = 0
+            except subprocess.CalledProcessError as e:
+                output = e.output
+                returncode = e.returncode
 
         with open(path+'/twitterScore.csv') as csvfile:
             reader = csv.DictReader(csvfile)
@@ -45,7 +45,7 @@ class analyzed():
         path = os.path.dirname(sys.modules['__main__'].__file__)
         print(coin)
         if debug:
-            x = subprocess.check_output("Rscript --vanilla " + path + "EventScore" + coin + ".R",
+            x = subprocess.check_output("Rscript --vanilla " + path + "/EventScore" + coin + ".R",
                                         stderr=subprocess.STDOUT, shell=True)
         else:
             output = subprocess.check_output("echo h7Dx34|sudo -S Rscript --vanilla EventScore"+coin+".R",
