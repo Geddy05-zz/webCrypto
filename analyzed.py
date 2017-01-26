@@ -16,12 +16,12 @@ class analyzed():
                                         stderr=subprocess.STDOUT, shell=True)
 
         else:
-            try:
-                output = subprocess.check_output("echo h7Dx34|sudo -S Rscript --vanilla /home/webCrypto/twitterCombi"+coin+".R",stderr=subprocess.STDOUT,shell = True)
-                returncode = 0
-            except subprocess.CalledProcessError as e:
-                output = e.output
-                returncode = e.returncode
+            # try:
+            output = subprocess.check_output("echo h7Dx34|sudo -S Rscript --vanilla /home/webCrypto/twitterCombi"+coin+".R",stderr=subprocess.STDOUT,shell = True)
+            returncode = 0
+            # except subprocess.CalledProcessError as e:
+            #     output = e.output
+            #     returncode = e.returncode
 
         with open('twitterScore.csv') as csvfile:
             reader = csv.DictReader(csvfile)
