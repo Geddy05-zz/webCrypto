@@ -40,10 +40,12 @@ class analyzed():
         return scores
 
     @classmethod
-    def sentiment(cls,coin, debug = False):
+    def prediction(cls,coin, debug = False):
+        analyzed().twitter(coin)
         scores = []
         path = os.path.dirname(sys.modules['__main__'].__file__)
         print(coin)
+
         if debug:
             x = subprocess.check_output("Rscript --vanilla " + path + "/EventScore" + coin + ".R",
                                         stderr=subprocess.STDOUT, shell=True)
@@ -65,4 +67,38 @@ class analyzed():
                     score['pos'] = row['pos.neg']
                     scores.append(score)
 
+        return scores
+
+    @classmethod
+    def twitter(cls, coin, debug=False):
+        path = os.path.dirname(sys.modules['__main__'].__file__)
+
+        if debug:
+            x = subprocess.check_output("Rscript --vanilla " + path + "/TA" + coin + ".R",
+                                        stderr=subprocess.STDOUT, shell=True)
+
+        else:
+            # try:
+            output = subprocess.check_output(
+                "echo h7Dx34|sudo -S Rscript --vanilla /home/webCrypto/TA" + coin + ".R",
+                stderr=subprocess.STDOUT, shell=True)
+            returncode = 0
+            # except subprocess.CalledProcessError as e:
+            #     output = e.output
+            #     returncode = e.returncode
+
+        with open('twitterScore.csv') as csvfile:
+            reader = csv.DictReader(csvfile)
+            scores = []
+            for row in reader:
+                score = {}
+
+                date = datetime.fromtimestamp(
+                    float(row["tStamp"])
+                ).strftime('%d-%m %H:%M')
+
+                score["date"] = date
+                score["score"] = row["score"]
+                score["sentiment"] = row["scoreSentiment"]
+                scores.append(score)
         return scores
