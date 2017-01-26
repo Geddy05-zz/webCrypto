@@ -149,8 +149,14 @@ function draw_live_twitter(data) {
 
     for (var i = 0, len = data.length; i < len; i++) {
         var tick = data[i];
+        var sentim = null;
+        if(tick.sentiment != "NA"){
+            sentim = parseInt(tick.sentiment)
+        }
+
         a.push({"date": tick.date,
-                  "Twitter": tick.score})
+                  "Twitter": tick.score,
+                    "Sentiment": sentim })
     }
     console.log(a);
     AmCharts.makeChart("chart3div",

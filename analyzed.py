@@ -11,19 +11,19 @@ class analyzed():
     def twitter(cls,coin ,debug = False):
         path = os.path.dirname(sys.modules['__main__'].__file__)
 
-        if debug:
-            x = subprocess.check_output("Rscript --vanilla " + path + "/TwitterScore" + coin + ".R",
-                                        stderr=subprocess.STDOUT, shell=True)
+        # if debug:
+        #     x = subprocess.check_output("Rscript --vanilla " + path + "/TwitterScore" + coin + ".R",
+        #                                 stderr=subprocess.STDOUT, shell=True)
+        #
+        # else:
+        #     try:
+        #         output = subprocess.check_output("echo h7Dx34|sudo -S Rscript --vanilla /home/webCrypto/TwitterScore"+coin+".R",stderr=subprocess.STDOUT,shell = True)
+        #         returncode = 0
+        #     except subprocess.CalledProcessError as e:
+        #         output = e.output
+        #         returncode = e.returncode
 
-        else:
-            try:
-                output = subprocess.check_output("echo h7Dx34|sudo -S Rscript --vanilla /home/webCrypto/TwitterScore"+coin+".R",stderr=subprocess.STDOUT,shell = True)
-                returncode = 0
-            except subprocess.CalledProcessError as e:
-                output = e.output
-                returncode = e.returncode
-
-        with open('resultsTwitterScore.csv') as csvfile:
+        with open('twitterScore.csv') as csvfile:
             reader = csv.DictReader(csvfile)
             scores = []
             for row in reader:
@@ -35,6 +35,7 @@ class analyzed():
 
                 score["date"] = date
                 score["score"] = row["score"]
+                score["sentiment"] = row["scoreSentiment"]
                 scores.append(score)
         return scores
 
