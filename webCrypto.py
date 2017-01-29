@@ -47,7 +47,7 @@ def ta():
 @app.route('/sentiment', methods=['GET','POST'])
 def sentiment():
     coin = request.args.get("coin")
-    scores = analyzed.sentiment(coin = coin,debug=debug)
+    scores = analyzed.prediction(coin = coin,debug=debug)
     return json.dumps(scores)
 
 
