@@ -34,6 +34,26 @@ function twitter(){
     });
 }
 
+function ta(){
+    element = document.getElementById("title")
+    var text = element.innerText || element.textContent;
+           $.ajax({
+        type: 'GET',
+        url: '/ta',
+               data: { "coin": text},
+        dataType: 'json',
+        success: function (data) {
+            // for (var x in data) {
+            setArrow(data);
+            // }
+        }
+       });
+}
+
+function setArrow(data){
+
+}
+
 function sentiment(){
     element = document.getElementById("title")
     var text = element.innerText || element.textContent;

@@ -70,7 +70,7 @@ class analyzed():
         return scores
 
     @classmethod
-    def twitter(cls, coin, debug=False):
+    def ta(cls, coin, debug=False):
         path = os.path.dirname(sys.modules['__main__'].__file__)
 
         if debug:
@@ -87,18 +87,10 @@ class analyzed():
             #     output = e.output
             #     returncode = e.returncode
 
-        with open('twitterScore.csv') as csvfile:
+        with open('TAPredict.csv') as csvfile:
             reader = csv.DictReader(csvfile)
-            scores = []
+            isPositive = False
             for row in reader:
-                score = {}
+                isPositive = bool(int(row["x"]))
 
-                date = datetime.fromtimestamp(
-                    float(row["tStamp"])
-                ).strftime('%d-%m %H:%M')
-
-                score["date"] = date
-                score["score"] = row["score"]
-                score["sentiment"] = row["scoreSentiment"]
-                scores.append(score)
-        return scores
+        return isPositive

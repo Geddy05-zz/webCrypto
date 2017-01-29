@@ -155,7 +155,7 @@ for (l in 1:12) {
 scores <- data.frame()
 for (d in 1:length(sentiment)) {
   scores[d,1] <- time_to_unix(time[d])
-  scores[d,2] <- round(score(sentiment[d], 1.52, 0.156), digits = 2)
+  scores[d,2] <- round(score(sentiment[d], 1.58, 0.209), digits = 2)
 }
 
 colnames(scores) <- c("tStamp", "score")

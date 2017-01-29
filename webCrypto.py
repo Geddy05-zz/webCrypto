@@ -33,8 +33,16 @@ def index():
 @app.route('/twitter', methods=['GET','POST'])
 def rscript():
     coin = request.args.get("coin")
+    analyzed.ta(coin = coin,debug=debug)
+
     scores = analyzed().twitter(coin = coin,debug=debug)
     return json.dumps(scores)
+
+@app.route('/ta', methods=['GET','POST'])
+def ta():
+    coin = request.args.get("coin")
+    isPositief = analyzed.ta(coin=coin, debug=debug)
+    return json.dumps(isPositief)
 
 @app.route('/sentiment', methods=['GET','POST'])
 def sentiment():
