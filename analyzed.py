@@ -40,10 +40,12 @@ class analyzed():
         return scores
 
     @classmethod
-    def sentiment(cls,coin, debug = False):
+    def prediction(cls,coin, debug = False):
+        analyzed().twitter(coin)
         scores = []
         path = os.path.dirname(sys.modules['__main__'].__file__)
         print(coin)
+
         if debug:
             x = subprocess.check_output("Rscript --vanilla " + path + "/EventScore" + coin + ".R",
                                         stderr=subprocess.STDOUT, shell=True)
@@ -66,3 +68,29 @@ class analyzed():
                     scores.append(score)
 
         return scores
+
+    @classmethod
+    def ta(cls, coin, debug=False):
+        path = os.path.dirname(sys.modules['__main__'].__file__)
+
+        if debug:
+            x = subprocess.check_output("Rscript --vanilla " + path + "/TA" + coin + ".R",
+                                        stderr=subprocess.STDOUT, shell=True)
+
+        else:
+            # try:
+            output = subprocess.check_output(
+                "echo h7Dx34|sudo -S Rscript --vanilla /home/webCrypto/TA" + coin + ".R",
+                stderr=subprocess.STDOUT, shell=True)
+            returncode = 0
+            # except subprocess.CalledProcessError as e:
+            #     output = e.output
+            #     returncode = e.returncode
+
+        with open('TAPredict.csv') as csvfile:
+            reader = csv.DictReader(csvfile)
+            isPositive = False
+            for row in reader:
+                isPositive = bool(int(row["x"]))
+
+        return isPositive

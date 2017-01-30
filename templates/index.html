@@ -111,7 +111,8 @@
         <div class="row homerow">
             <div class="col-xs-1 col-md-4"></div>
             <div class="col-xs-10 col-md-4">
-                <button style="float: left" class="loginButton" type="button" onclick="location.href='/login';">Log In</button>
+                <button id = "login" style="float: left; visibility: visible" class="loginButton" type="button" onclick="location.href='/login';">Log In</button>
+                <button id = "logout" style='float: left; visibility: hidden' class="loginButton" type="button" onclick="logOut();">Log Out</button>
                 <button style="float: right" class="loginButton" type="button" onclick="location.href='/profile';">Profile</button>
             </div>
             <div class="col-xs-1 col-md-4"></div>
@@ -142,17 +143,21 @@
         var budget = data["budget"];
         console.log(data)
         if (undefined != budget) {
-            var budget = "Budget: " + data["budget"];
-            budget += "<button type='button' onclick='logOut()'>Log out</button>";
+            var budget = "Budget: $ " + parseFloat(data["budget"]).toFixed(2);
             document.getElementById("header").innerHTML = budget;
+
+            document.getElementById("login").style.visibility = "hidden";
+            document.getElementById("logout").style.visibility = "visible"
+
         }
     }
 
     function logOut() {
         sessionStorage['token'] = null;
         sessionStorage["uid"] = null;
-        var emptyHeader = "<button type='button' onclick=\"location.href='/login';\">Log In</button>"
-        document.getElementById("header").innerHTML = emptyHeader;
+        document.getElementById("header").innerHTML = "";
+        document.getElementById("login").style.visibility = "visible";
+        document.getElementById("logout").style.visibility = "hidden"
     }
 </script>
 </html>

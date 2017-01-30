@@ -33,13 +33,21 @@ def index():
 @app.route('/twitter', methods=['GET','POST'])
 def rscript():
     coin = request.args.get("coin")
+    analyzed.ta(coin = coin,debug=debug)
+
     scores = analyzed().twitter(coin = coin,debug=debug)
     return json.dumps(scores)
+
+@app.route('/ta', methods=['GET','POST'])
+def ta():
+    coin = request.args.get("coin")
+    isPositief = analyzed.ta(coin=coin, debug=debug)
+    return json.dumps(isPositief)
 
 @app.route('/sentiment', methods=['GET','POST'])
 def sentiment():
     coin = request.args.get("coin")
-    scores = analyzed.sentiment(coin = coin,debug=debug)
+    scores = analyzed.prediction(coin = coin,debug=debug)
     return json.dumps(scores)
 
 
@@ -124,9 +132,8 @@ def xrp():
 @app.route('/profile', methods=['GET', 'POST'])
 def getprofile():
     data = user().get_profile(mongo, firebase, request)
-
-    if data:
-        return json.dump(data)
+    if request.method == 'POST':
+        return json.dumps(data);
 
     return render_template('profile.html',
                            title='Bitcoin',

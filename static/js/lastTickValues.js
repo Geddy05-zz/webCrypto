@@ -3,7 +3,7 @@
  */
 
 function do_request(){
-    element = document.getElementById("title")
+    element = document.getElementById("title");
     var text = element.innerText || element.textContent;
 element.innerHTML = text;
     $.ajax({
@@ -32,6 +32,36 @@ function twitter(){
             // }
         }
     });
+}
+
+function ta(){
+    element = document.getElementById("title")
+    var text = element.innerText || element.textContent;
+           $.ajax({
+        type: 'GET',
+        url: '/ta',
+               data: { "coin": text},
+        dataType: 'json',
+        success: function (data) {
+            // for (var x in data) {
+            setArrow(data);
+            // }
+        }
+       });
+}
+
+function setArrow(data){
+    console.log(data);
+
+    var up = document.getElementById("Layer_1");
+    var down = document.getElementById("Layer_2");
+    if (data){
+        up.style.visibility = "visible" ;
+        down.style.visibility = "hidden";
+    }else{
+        up.style.visibility = "hidden" ;
+        down.style.visibility = "visible";
+    }
 }
 
 function sentiment(){
@@ -310,5 +340,6 @@ function draw_live_ticks(data) {
           );
 }
 do_request();
+ta();
 sentiment();
 twitter();

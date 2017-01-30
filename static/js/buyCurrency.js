@@ -3,17 +3,21 @@
  */
 var frm = $('#buy');
 frm.submit(function (ev) {
-    $.ajax({
-        type: frm.attr('method'),
-        url: "/buyCurrency",
-        headers: {  "token": ""+sessionStorage['token'],
-                    "uid":sessionStorage["uid"]
-                },
-        data: frm.serialize(),
-        success: function (data) {
-            console.log(data)
 
-        }
-    });
+    if (sessionStorage['token']){
+        $.ajax({
+            type: frm.attr('method'),
+            url: "/buyCurrency",
+            headers: {
+                "token": "" + sessionStorage['token'],
+                "uid": sessionStorage["uid"]
+            },
+            data: frm.serialize(),
+            success: function (data) {
+                console.log(data)
+
+            }
+        });
+    }
     ev.preventDefault();
 });
