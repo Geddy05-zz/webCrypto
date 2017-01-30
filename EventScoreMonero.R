@@ -76,7 +76,9 @@ for(detail in rss_feeds$description) {
   r[[i]] <- (processWords(tagless_detail, currency_name))
 }
 
-r2 <- rbind(r[[1]], r[[2]])
+if (i>1) r2 <- rbind(r[[1]], r[[2]])
+if (i==1) r2 <- r[[1]]
+if (i==0) r2 <- data.frame()
 if (nrow(rss_feeds)>2) {
   for(i in 3:nrow(rss_feeds)) {
     r2 <- rbind(r2, r[[i]])
@@ -88,8 +90,8 @@ data_processor <- function(data, name){
   data
 }
 
-r2 <- data_processor(r2, currency_name)
 if(nrow(r2)>0){
+  r2 <- data_processor(r2, currency_name)
   r3 <- aggregate(r2$percentage, by=list(r2$term), FUN = sum)
   colnames(r3) <- c("term", "percentage")
   r2 <- aggregate(r2$freq, by=list(r2$term), FUN = sum)
@@ -102,10 +104,8 @@ if(nrow(r2)>0){
   data_text <- r3[1:unique_words,1:2]
   data_text <- tolower(rep(data_text[,1], data_text[,2]))
   
-#  data_keywords <- read.csv("eventKeyWords.csv", sep = ";")
-  data_keywords <- read.csv("/home/webCrypto/eventKeyWords.csv", sep = ";")
-
-
+  data_keywords <- read.csv("eventKeyWords.csv", sep = ";")
+  
   j <- 20
   rows <- j + (c(1:9)-1)*100
   rows2 <- 1 + (c(1:9)-1)*100

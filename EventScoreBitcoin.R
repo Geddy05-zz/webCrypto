@@ -8,7 +8,7 @@ library(tm)
 library(SnowballC)
 library(plyr)
 
-dumpVar<-Sys.setlocale("LC_ALL","English")
+Sys.setlocale("LC_ALL","English")
 maxDate <- Sys.time()
 minDate <- maxDate - 3600 * 12 # hours
 minDate <- as.integer(as.POSIXct(strptime(minDate,"%Y-%m-%d %H:%M:%S"))) * 1000
@@ -76,7 +76,9 @@ for(detail in rss_feeds$description) {
   r[[i]] <- (processWords(tagless_detail, currency_name))
 }
 
-r2 <- rbind(r[[1]], r[[2]])
+if (i>1) r2 <- rbind(r[[1]], r[[2]])
+if (i==1) r2 <- r[[1]]
+if (i==0) r2 <- data.frame()
 if (nrow(rss_feeds)>2) {
   for(i in 3:nrow(rss_feeds)) {
     r2 <- rbind(r2, r[[i]])
@@ -88,8 +90,8 @@ data_processor <- function(data, name){
   data
 }
 
-r2 <- data_processor(r2, currency_name)
 if(nrow(r2)>0){
+  r2 <- data_processor(r2, currency_name)
   r3 <- aggregate(r2$percentage, by=list(r2$term), FUN = sum)
   colnames(r3) <- c("term", "percentage")
   r2 <- aggregate(r2$freq, by=list(r2$term), FUN = sum)
@@ -101,10 +103,8 @@ if(nrow(r2)>0){
   
   data_text <- r3[1:unique_words,1:2]
   data_text <- tolower(rep(data_text[,1], data_text[,2]))
-#  data_keywords <- read.csv("/Users/geddy/Documents/webCrypto/eventKeyWords.csv", sep = ";")
-#  data_keywords <- read.csv("eventKeyWords.csv", sep = ";")
-  data_keywords <- read.csv("/home/webCrypto/eventKeyWords.csv", sep = ";")
-
+  
+  data_keywords <- read.csv("eventKeyWords.csv", sep = ";")
   
   j <- 20
   rows <- j + (c(1:9)-1)*100
@@ -192,7 +192,7 @@ if(nrow(r2)==0){
 colnames(sentiment_percentages) <- c("event", "percentage")
 sentiment_percentages[,2] <- round(sentiment_percentages[,2], digits = 1)
 event <- c("bannedFromCountry", "hackedExchange", "halvingDay", "marketplaceAcceptance",
-            "pricedrop", "priceIncrease", "taxation", "bailout", "coinAcception")
+           "pricedrop", "priceIncrease", "taxation", "bailout", "coinAcception")
 pos.neg <- c("p","n", "p", "p", "n", "p", "n", "p", "p")
 sentiment_event <- data.frame(event, pos.neg)
 sentiment_percentages <- merge(sentiment_percentages, sentiment_event, by="event")
@@ -200,4 +200,3 @@ sentiment_percentages <- sentiment_percentages[order(sentiment_percentages[,2], 
 
 write.csv(sentiment_percentages, file = "sentimentEventScore.csv")
 rm(list = ls())
-
