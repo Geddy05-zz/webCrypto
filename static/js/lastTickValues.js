@@ -342,5 +342,5 @@ function draw_live_ticks(data) {
 do_request();
 ta();
 twitter();
-sentiment();
+// sentiment();
 
