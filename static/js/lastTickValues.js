@@ -84,8 +84,10 @@ function updateScore(data) {
     var last = parseInt(data[data.length - 1].price_usd);
     var first = parseInt(data[0].price_usd);
 
-    var change = (first /last ) * 100;
+    var change = (last /first ) * 100;
     if (change > 100){
+        change = change - 100;
+    }else{
         change = 100 - change;
     }
     element = document.getElementById("score");
