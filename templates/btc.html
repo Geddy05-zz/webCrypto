@@ -533,64 +533,76 @@
   <script>
       $(document).ready(function() {
           $('#amount').change(function () {
-              var totalPrice = $(this).val() * $('#price').text(); // get the current value of the input field.
-              document.getElementById("totaalPrice").innerHTML = totalPrice;
+              console.log($('#price').text().replace("$" , ""));
+              var totalPrice = parseFloat($(this).val()) * parseFloat($('#price').text().replace("$" , "")); // get the current value of the input field.
+              document.getElementById("totaalPrice").innerHTML = parseFloat(totalPrice);
           });
 
           $("#buybtn").click(function(){
-              var currency = $('#buyName').text();
-              var amount =  $('#amount').val();
-              var price = $('#price').text();
+                  if (sessionStorage['token']) {
 
-              var obj = new Object();
-              obj.currency = currency;
-              obj.amount  = amount;
-              obj.price = price;
+                      var currency = $('#buyName').text();
+                      var amount = $('#amount').val();
+                      var tempPrice = $('#price').text();
+                      var price = tempPrice.replace("$" , "");
 
-              var jsonString = JSON.stringify(obj);
-              console.log(jsonString);
-              $.ajax({
-                  type: 'POST',
-                  url: "/buyCurrency",
-                  headers: {  "token": ""+sessionStorage['token'],
-                      "uid":sessionStorage["uid"]
-                  },
-                  contentType: "application/json",
-                  dataType: 'json',
-                  data: jsonString,
-                  success: function (data) {
-                      console.log(data)
+                      var obj = new Object();
+                      obj.currency = currency;
+                      obj.amount = amount;
+                      obj.price = price;
+
+                      var jsonString = JSON.stringify(obj);
+                      console.log(jsonString);
+                      $.ajax({
+                          type: 'POST',
+                          url: "/buyCurrency",
+                          headers: {
+                              "token": "" + sessionStorage['token'],
+                              "uid": sessionStorage["uid"]
+                          },
+                          contentType: "application/json",
+                          dataType: 'json',
+                          data: jsonString,
+                          success: function (data) {
+                              console.log(data)
+                          }
+                      });
+                  }else{
+                      alert("First Login");
                   }
-              });
-            alert(amount * price);
           });
 
           $("#sellbtn").click(function(){
-              var currency = $('#buyName').text();
-              var amount =  $('#amount').val();
-              var price = $('#price').text();
+              if (sessionStorage['token']) {
 
-              var obj = new Object();
-              obj.currency = currency;
-              obj.amount  = amount;
-              obj.price = price;
+                  var currency = $('#buyName').text();
+                  var amount =  $('#amount').val();
+                  var tempPrice = $('#price').text();
+                  var price = tempPrice.replace("$" , "");
 
-              var jsonString = JSON.stringify(obj);
-              console.log(jsonString);
-              $.ajax({
-                  type: 'POST',
-                  url: "/sellCurrency",
-                  headers: {  "token": ""+sessionStorage['token'],
-                      "uid":sessionStorage["uid"]
-                  },
-                  contentType: "application/json",
-                  dataType: 'json',
-                  data: jsonString,
-                  success: function (data) {
-                      console.log(data)
-                  }
-              });
-            alert(amount * price);
+                  var obj = new Object();
+                  obj.currency = currency;
+                  obj.amount  = amount;
+                  obj.price = price;
+
+                  var jsonString = JSON.stringify(obj);
+                  console.log(jsonString);
+                  $.ajax({
+                      type: 'POST',
+                      url: "/sellCurrency",
+                      headers: {  "token": ""+sessionStorage['token'],
+                          "uid":sessionStorage["uid"]
+                      },
+                      contentType: "application/json",
+                      dataType: 'json',
+                      data: jsonString,
+                      success: function (data) {
+                          console.log(data)
+                      }
+                  });
+              }else{
+                  alert("First Login");
+              }
           });
       });
 

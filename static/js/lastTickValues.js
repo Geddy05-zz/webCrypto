@@ -3,7 +3,7 @@
  */
 
 function do_request(){
-    element = document.getElementById("title")
+    element = document.getElementById("title");
     var text = element.innerText || element.textContent;
 element.innerHTML = text;
     $.ajax({
@@ -53,8 +53,8 @@ function ta(){
 function setArrow(data){
     console.log(data);
 
-    var up = document.getElementById("Layer_1")
-    var down = document.getElementById("Layer_2")
+    var up = document.getElementById("Layer_1");
+    var down = document.getElementById("Layer_2");
     if (data){
         up.style.visibility = "visible" ;
         down.style.visibility = "hidden";

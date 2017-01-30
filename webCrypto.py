@@ -132,9 +132,8 @@ def xrp():
 @app.route('/profile', methods=['GET', 'POST'])
 def getprofile():
     data = user().get_profile(mongo, firebase, request)
-
-    if data:
-        return json.dump(data)
+    if request.method == 'POST':
+        return json.dumps(data);
 
     return render_template('profile.html',
                            title='Bitcoin',
