@@ -87,8 +87,6 @@ function updateScore(data) {
     var change = (last /first ) * 100;
     if (change > 100){
         change = change - 100;
-    }else{
-        change = 100 - change;
     }
     element = document.getElementById("score");
     element.innerHTML = change.toFixed(2)
