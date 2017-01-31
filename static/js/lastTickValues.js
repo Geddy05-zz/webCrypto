@@ -340,7 +340,7 @@ function draw_live_ticks(data) {
           );
 }
 do_request();
-ta();
+//ta();
 twitter();
 // sentiment();
 
